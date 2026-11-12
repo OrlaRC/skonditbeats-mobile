@@ -55,6 +55,24 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     }
   }
 
+  /// Google confirma la identidad en el navegador; después se pide el código OTP,
+  /// igual que en la web.
+  Future<void> _google() async {
+    if (_loading) return;
+    setState(() => _loading = true);
+    try {
+      final result = await ref.read(authRepositoryProvider).loginConGoogle();
+      if (result != null && mounted) {
+        showAppSnack(context, result.message);
+        context.push(Routes.otp, extra: OtpArgs(email: result.email, otpDev: result.otpDev));
+      }
+    } on ApiException catch (e) {
+      if (mounted) showAppSnack(context, e.message, type: SnackType.error);
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,6 +137,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 child: CircularProgressIndicator(strokeWidth: 2.5, color: Colors.black),
                               )
                             : const Text('Iniciar sesión'),
+                      ),
+                      const SizedBox(height: 20),
+                      const Row(
+                        children: [
+                          Expanded(child: Divider()),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12),
+                            child: Text('o', style: TextStyle(color: AppColors.textMuted)),
+                          ),
+                          Expanded(child: Divider()),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      OutlinedButton.icon(
+                        onPressed: _loading ? null : _google,
+                        icon: const Text('G', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18)),
+                        label: const Text('Continuar con Google'),
                       ),
                       const SizedBox(height: 24),
                       Row(

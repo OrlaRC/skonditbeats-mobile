@@ -52,6 +52,7 @@ dependencies:
   # 22.x: la 23 exige Android SDK 37, que el Gradle del proyecto aún no reconoce.
   flutter_local_notifications: 22.0.0
   workmanager: ^0.10.10
+  flutter_web_auth_2: ^5.1.0
 
 dev_dependencies:
   flutter_test:
