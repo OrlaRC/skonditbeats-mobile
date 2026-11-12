@@ -1,0 +1,200 @@
+﻿Resolving dependencies...
+Downloading packages...
+  archive 4.3.0 (4.6.0 available)
+  cli_util 0.4.2 (0.6.0 available)
+  clock 1.1.2 (1.1.3 available)
+  code_assets 1.2.1 (2.2.0 available)
+  cross_file 0.3.5+5 (0.4.0 available)
+  crypto 3.0.7 (3.0.8 available)
+  cupertino_icons 1.0.9 (2.0.0 available)
+  cupertino_ui 1.0.2 (1.1.6 available)
+  file_selector_macos 0.9.5+1 (0.9.5+2 available)
+  flutter_local_notifications 22.0.0 (23.0.1 available)
+  flutter_local_notifications_linux 8.0.2 (9.0.0 available)
+  flutter_local_notifications_platform_interface 12.2.0 (13.0.0 available)
+  flutter_local_notifications_web 1.0.0 (2.0.0 available)
+  flutter_local_notifications_windows 3.1.1 (4.0.1 available)
+  flutter_riverpod 3.4.3 (3.5.0 available)
+  go_router 18.0.2 (18.1.4 available)
+  hooks 2.0.2 (2.2.0 available)
+  image 4.10.1 (4.12.0 available)
+  image_cropper 12.2.1 (13.0.0 available)
+  image_cropper_for_web 7.0.0 (8.0.1 available)
+  image_cropper_platform_interface 8.0.0 (9.0.0 available)
+  image_picker_ios 0.8.13+10 (0.8.13+15 available)
+  intl 0.20.2 (0.20.3 available)
+  jni 1.1.0 (1.1.2 available)
+  local_auth_android 2.2.0 (2.3.0 available)
+  local_auth_darwin 2.0.4 (2.0.5 available)
+  matcher 0.12.19 (0.12.20 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  material_ui 1.2.0 (1.11.0 available)
+  meta 1.18.0 (1.19.0 available)
+  objective_c 9.5.0 (9.6.4 available)
+  petitparser 7.0.2 (7.1.0 available)
+  posix 6.5.2 (6.5.4 available)
+  record_use 0.6.0 (1.1.1 available)
+  riverpod 3.4.3 (3.5.0 available)
+  sqflite 2.4.4+1 (2.4.6 available)
+  sqflite_android 2.4.4 (2.4.6 available)
+  sqflite_common 2.5.13+1 (2.5.17 available)
+  sqflite_darwin 2.4.4 (2.4.6 available)
+  sqflite_platform_interface 2.4.2 (2.4.4 available)
+  stack_trace 1.12.1 (1.12.2 available)
+  synchronized 3.4.2 (3.6.1+1 available)
+  test_api 0.7.11 (0.7.15 available)
+  vector_math 2.2.0 (2.4.4 available)
+  vm_service 15.3.0 (15.4.0 available)
+  web 1.1.1 (1.1.2 available)
+  xml 7.0.1 (7.1.0 available)
+Got dependencies!
+47 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+00:00 +0: loading D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart
+00:00 +0: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M4 · ApiException.fromDio — un caso por camino P1 la API manda {error} → se usa su mensaje y su código
+00:00 +1: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M4 · ApiException.fromDio — un caso por camino P2 connectionTimeout / receiveTimeout / sendTimeout → sinRed
+00:00 +2: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M4 · ApiException.fromDio — un caso por camino P3 connectionError → sin conexión
+00:00 +3: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M4 · ApiException.fromDio — un caso por camino P4 cancel
+00:00 +4: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M4 · ApiException.fromDio — un caso por camino P5 401 sin cuerpo → sesión expirada
+00:00 +5: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M4 · ApiException.fromDio — un caso por camino P6 403 sin cuerpo → sin permiso (no se confunde con 401)
+00:00 +6: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M4 · ApiException.fromDio — un caso por camino P7 500 / 503 → problema del servidor con el código
+00:00 +7: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M4 · ApiException.fromDio — un caso por camino P8 sin código HTTP (corte a media respuesta) → sinRed
+00:00 +8: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M4 · ApiException.fromDio — un caso por camino P9 otro 4xx sin cuerpo → mensaje genérico con el código
+00:00 +9: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M4 · ApiException.fromDio — un caso por camino valor límite 499 / 500: 499 no es error de servidor
+00:00 +10: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M4 · errores generados por Fastify (no por las rutas) 400 de validación de esquema → mensaje en español, no "Bad Request"
+00:00 +10 -1: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M4 · errores generados por Fastify (no por las rutas) 400 de validación de esquema → mensaje en español, no "Bad Request" [E]
+  Expected: not 'Bad Request'
+    Actual: 'Bad Request'
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test\whitebox\api_client_wb_test.dart 81:7          main.<fn>.<fn>
+  
+00:00 +10 -1: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M4 · errores generados por Fastify (no por las rutas) 404 de ruta inexistente → mensaje en español, no "Not Found"
+00:00 +10 -2: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M4 · errores generados por Fastify (no por las rutas) 404 de ruta inexistente → mensaje en español, no "Not Found" [E]
+  Expected: not 'Not Found'
+    Actual: 'Not Found'
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test\whitebox\api_client_wb_test.dart 87:7          main.<fn>.<fn>
+  
+00:00 +10 -2: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M4 · errores generados por Fastify (no por las rutas) 422 sin cuerpo → mensaje de validación
+00:00 +10 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M4 · errores generados por Fastify (no por las rutas) 422 sin cuerpo → mensaje de validación [E]
+  Expected: contains 'Revisa los datos'
+    Actual: 'Ocurrió un error inesperado (422).'
+     Which: does not contain 'Revisa los datos'
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test\whitebox\api_client_wb_test.dart 91:7          main.<fn>.<fn>
+  
+00:00 +10 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M4 · errores generados por Fastify (no por las rutas) 422 de la API con {error} → se respeta el mensaje
+00:00 +11 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M4 · errores generados por Fastify (no por las rutas) cuerpo que no es mapa (HTML de un proxy) → no truena
+00:00 +12 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M5 · ReintentoInterceptor — cobertura de condiciones esSeguroRepetir: GET, HEAD, POST con clave = V; POST/PUT/DELETE sin clave = F
+00:00 +13 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M5 · ReintentoInterceptor — cobertura de condiciones esTransitorio: cada tipo de error y los códigos límite 501/502/504/505
+00:00 +14 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M5 · ReintentoInterceptor — cobertura de condiciones esperaPara: valores límite del backoff (n = 0, n grande con tope)
+00:00 +15 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M5 · onError contra un servidor local (sin red externa) n >= max: con max = 0 no se reintenta nunca (valor límite)
+00:00 +16 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M5 · onError contra un servidor local (sin red externa) 503, 503, 200 → se recupera en el tercer intento (max = 2)
+00:00 +17 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M5 · onError contra un servidor local (sin red externa) 503 siempre → se rinde después de 1 + 2 intentos
+00:00 +18 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M5 · onError contra un servidor local (sin red externa) petición cancelada → no se reintenta
+00:00 +19 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M5 · onError contra un servidor local (sin red externa) POST sin clave con 503 → un solo intento (no duplica registros)
+00:00 +20 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M5 · onError contra un servidor local (sin red externa) POST con clave con 503, 201 → se repite con la misma clave
+00:00 +21 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: MedicionInterceptor registra la petición sin alterar la respuesta
+[p12] GET /beats 200 · 5 ms · 0.0 KB · intento 1
+[p12] GET http://127.0.0.1:1/ sin respuesta · 2052 ms · ? KB · intento 1
+00:02 +22 -3: loading D:/Flutter/skondit_beats_mobile/test/whitebox/cart_wb_test.dart
+00:03 +22 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/cart_wb_test.dart: M3 · addPack — caminos independientes P1 el paquete ya está en el carrito → rechazado
+00:03 +23 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/cart_wb_test.dart: M3 · addPack — caminos independientes P2 ya tiene 1 beat del paquete → mensaje en singular
+00:03 +24 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/cart_wb_test.dart: M3 · addPack — caminos independientes P3 ya tiene 2 beats del paquete → mensaje en plural
+00:03 +25 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/cart_wb_test.dart: M3 · addPack — caminos independientes P4 sin beats sueltos repetidos: el ciclo no itera
+00:03 +26 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/cart_wb_test.dart: M3 · addPack — caminos independientes P5 con beats sueltos repetidos: el ciclo los quita (no se pagan dos veces)
+00:03 +27 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/cart_wb_test.dart: M3 · addBeat — caminos independientes P1 ya comprado
+00:03 +28 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/cart_wb_test.dart: M3 · addBeat — caminos independientes P2 ya en el carrito
+00:03 +29 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/cart_wb_test.dart: M3 · addBeat — caminos independientes P3 ya viene en un paquete del carrito
+00:03 +30 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/cart_wb_test.dart: M3 · addBeat — caminos independientes P4 se agrega
+00:03 +31 -3: D:/Flutter/skondit_beats_mobile/test/whitebox/cart_wb_test.dart: Sin sesión y excepciones sin sesión no se informa "se agregó" si no se guardó nada
+00:03 +31 -4: D:/Flutter/skondit_beats_mobile/test/whitebox/cart_wb_test.dart: Sin sesión y excepciones sin sesión no se informa "se agregó" si no se guardó nada [E]
+  Expected: false
+    Actual: <true>
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test\whitebox\cart_wb_test.dart 137:7               main.<fn>.<fn>
+  
+00:03 +31 -4: D:/Flutter/skondit_beats_mobile/test/whitebox/cart_wb_test.dart: Sin sesión y excepciones si SQLite falla, el error llega a quien llama y el estado no cambia
+00:03 +32 -4: D:/Flutter/skondit_beats_mobile/test/whitebox/cart_wb_test.dart: Sin sesión y excepciones total con valores límite: carrito vacío y precio 0
+00:03 +33 -4: D:/Flutter/skondit_beats_mobile/test/whitebox/cart_wb_test.dart: Sin sesión y excepciones vaciar y quitar persisten en SQLite
+00:03 +34 -4: loading D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart
+00:03 +34 -4: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M1 · cardExpiry — caminos independientes P1 formato inválido → "Usa el formato MM/AA"
+00:03 +35 -4: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M1 · cardExpiry — caminos independientes P2 mes fuera de rango por abajo (mes < 1)
+00:03 +36 -4: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M1 · cardExpiry — caminos independientes P3 mes fuera de rango por arriba (mes > 12)
+00:03 +37 -4: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M1 · cardExpiry — caminos independientes P4 año anterior al actual → vencida
+00:03 +38 -4: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M1 · cardExpiry — caminos independientes P5 mismo año, mes anterior → vencida
+00:03 +39 -4: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M1 · cardExpiry — caminos independientes P6 mismo año, mes actual → válida
+00:03 +40 -4: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M1 · cardExpiry — caminos independientes P7 año futuro → válida
+00:03 +41 -4: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M1 · cardExpiry — caminos independientes P8 vencimiento absurdo (más de 20 años) → rechazada
+00:03 +41 -5: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M1 · cardExpiry — caminos independientes P8 vencimiento absurdo (más de 20 años) → rechazada [E]
+  Expected: 'Fecha no válida'
+    Actual: <null>
+     Which: not an <Instance of 'String'>
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test\whitebox\validators_wb_test.dart 37:7          main.<fn>.<fn>
+  
+00:03 +41 -5: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M1 · cardExpiry — caminos independientes sin fecha inyectada usa el reloj del sistema (rama del operador ??)
+00:03 +41 -6: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M1 · cardExpiry — caminos independientes sin fecha inyectada usa el reloj del sistema (rama del operador ??) [E]
+  Expected: not null
+    Actual: <null>
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test\whitebox\validators_wb_test.dart 42:7          main.<fn>.<fn>
+  
+00:03 +41 -6: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M1 · cardExpiry — cobertura de condiciones (MC/DC) D2 · (F,F) mes 01 y (F,F) mes 12 → pasa
+00:03 +42 -6: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M1 · cardExpiry — cobertura de condiciones (MC/DC) D2 · (V,–) mes 00 y (F,V) mes 13 → falla
+00:03 +43 -6: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M1 · cardExpiry — cobertura de condiciones (MC/DC) D3 · A=V → vencida
+00:03 +44 -6: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M1 · cardExpiry — cobertura de condiciones (MC/DC) D3 · A=F, B=F (año futuro) → vigente
+00:03 +45 -6: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M1 · cardExpiry — cobertura de condiciones (MC/DC) D3 · A=F, B=V, C=V → vencida
+00:03 +46 -6: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M1 · cardExpiry — cobertura de condiciones (MC/DC) D3 · A=F, B=V, C=F → vigente
+00:03 +47 -6: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M1 · cardExpiry — valores límite y entradas raras null y vacío
+00:03 +48 -6: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M1 · cardExpiry — valores límite y entradas raras un dígito de más o de menos
+00:03 +49 -6: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M1 · cardExpiry — valores límite y entradas raras espacios alrededor no se aceptan
+00:03 +50 -6: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M1 · cardExpiry — valores límite y entradas raras cambio de año: diciembre del año pasado vs enero del siguiente
+00:03 +51 -6: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M2 · luhn — caminos del ciclo P1 cadena vacía: el ciclo no se ejecuta → false
+00:03 +52 -6: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M2 · luhn — caminos del ciclo P2 un dígito: una vuelta, sin duplicar (i par)
+00:03 +53 -6: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M2 · luhn — caminos del ciclo P3 dígito duplicado ≤ 9 (no resta 9)
+00:03 +54 -6: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M2 · luhn — caminos del ciclo P4 dígito duplicado > 9 (resta 9)
+00:03 +55 -6: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M2 · luhn — caminos del ciclo P5 tarjetas de prueba reales de 16 dígitos
+00:03 +56 -6: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M2 · luhn — pruebas de excepciones caracteres que no son dígitos no lanzan FormatException
+00:03 +56 -7: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M2 · luhn — pruebas de excepciones caracteres que no son dígitos no lanzan FormatException [E]
+  Expected: return normally
+    Actual: <Closure: () => bool>
+     Which: threw FormatException:<FormatException: Invalid number (at character 2)
+            -
+             ^
+            >
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test\whitebox\validators_wb_test.dart 108:7         main.<fn>.<fn>
+  
+00:03 +56 -7: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M2 · luhn — pruebas de excepciones cardNumber limpia separadores antes de llamar a luhn
+00:03 +57 -7: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: M2 · luhn — pruebas de excepciones cardNumber: 15 y 17 dígitos (valores límite de longitud)
+00:03 +58 -7: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: Valores límite de otras validaciones edad 17 / 18 / 120 / 121
+00:03 +59 -7: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: Valores límite de otras validaciones contraseña de 9 y 10 caracteres
+00:03 +60 -7: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: Valores límite de otras validaciones cada regla de la contraseña falla por separado
+00:03 +61 -7: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: Valores límite de otras validaciones teléfono de 9 / 10 / 13 / 14 dígitos y opcional
+00:03 +62 -7: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: Valores límite de otras validaciones CVV de 2 / 3 / 4 / 5 dígitos
+00:03 +63 -7: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: Valores límite de otras validaciones OTP de 5 / 6 / 7 dígitos y con letras
+00:03 +64 -7: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: Valores límite de otras validaciones correo
+00:03 +65 -7: D:/Flutter/skondit_beats_mobile/test/whitebox/validators_wb_test.dart: Valores límite de otras validaciones nombres y titular
+00:03 +66 -7: Some tests failed.
+
+Failing tests:
+  D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M4 · errores generados por Fastify (no por las rutas) 400 de validación de esquema → mensaje en español, no "Bad Request"
+  D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M4 · errores generados por Fastify (no por las rutas) 404 de ruta inexistente → mensaje en español, no "Not Found"
+  D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: M4 · errores generados por Fastify (no por las rutas) 422 sin cuerpo → mensaje de validación
+  D:/Flutter/skondit_beats_mobile/test/whitebox/cart_wb_test.dart: Sin sesión y excepciones sin sesión no se informa "se agregó" si no se guardó nada
+  ... and 3 more

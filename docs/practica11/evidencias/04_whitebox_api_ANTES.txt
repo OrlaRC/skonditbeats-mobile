@@ -1,0 +1,442 @@
+﻿TAP version 13
+# Subtest: POST /api/orders · caminos del grafo
+    # Subtest: C1 sin token → 401 (no autenticado)
+    ok 1 - C1 sin token → 401 (no autenticado)
+      ---
+      duration_ms: 26.471
+      ...
+    # Subtest: C2 lista vacía (minItems = 1, valor límite 0) → 400 por esquema
+    ok 2 - C2 lista vacía (minItems = 1, valor límite 0) → 400 por esquema
+      ---
+      duration_ms: 9.7296
+      ...
+    # Subtest: C3 cuerpo sin beats ni packId → 400
+    ok 3 - C3 cuerpo sin beats ni packId → 400
+      ---
+      duration_ms: 10.809
+      ...
+    # Subtest: C4 tipo incorrecto: un número en lugar de arreglo → 400
+    ok 4 - C4 tipo incorrecto: un número en lugar de arreglo → 400
+      ---
+      duration_ms: 1.5832
+      ...
+    # Subtest: C4b un texto suelto se convierte en arreglo (coerceTypes de Fastify) y aun así se rechaza
+    not ok 5 - C4b un texto suelto se convierte en arreglo (coerceTypes de Fastify) y aun así se rechaza
+      ---
+      duration_ms: 7.1149
+      location: 'D:\\Angular\\erp_beats\\api\\scripts\\p11\\whitebox.test.ts:2:4912'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly equal:
+        
+        400 !== 422
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: 422
+      actual: 400
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (D:\Angular\erp_beats\api\scripts\p11\whitebox.test.ts:129:12)
+        process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+        async Test.run (node:internal/test_runner/test:797:9)
+        async Suite.processPendingSubtests (node:internal/test_runner/test:526:7)
+      ...
+    # Subtest: C5 beat inexistente → 422 y no se escribe nada
+    not ok 6 - C5 beat inexistente → 422 y no se escribe nada
+      ---
+      duration_ms: 5.3586
+      location: 'D:\\Angular\\erp_beats\\api\\scripts\\p11\\whitebox.test.ts:2:5286'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly equal:
+        
+        400 !== 422
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: 422
+      actual: 400
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (D:\Angular\erp_beats\api\scripts\p11\whitebox.test.ts:136:12)
+        process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+        async Test.run (node:internal/test_runner/test:797:9)
+        async Suite.processPendingSubtests (node:internal/test_runner/test:526:7)
+      ...
+    # Subtest: C6 uno existe y otro no → 422 (antes cobraba solo el que existía)
+    not ok 7 - C6 uno existe y otro no → 422 (antes cobraba solo el que existía)
+      ---
+      duration_ms: 5.7668
+      location: 'D:\\Angular\\erp_beats\\api\\scripts\\p11\\whitebox.test.ts:2:5595'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly equal:
+        
+        201 !== 422
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: 422
+      actual: 201
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (D:\Angular\erp_beats\api\scripts\p11\whitebox.test.ts:143:12)
+        process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+        async Test.run (node:internal/test_runner/test:797:9)
+        async Suite.processPendingSubtests (node:internal/test_runner/test:526:7)
+      ...
+    # Subtest: C7 id con formato inválido (PostgreSQL 22P02) → 422, no 500
+    not ok 8 - C7 id con formato inválido (PostgreSQL 22P02) → 422, no 500
+      ---
+      duration_ms: 3.3192
+      location: 'D:\\Angular\\erp_beats\\api\\scripts\\p11\\whitebox.test.ts:2:5937'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly equal:
+        
+        400 !== 422
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: 422
+      actual: 400
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (D:\Angular\erp_beats\api\scripts\p11\whitebox.test.ts:150:12)
+        process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+        async Test.run (node:internal/test_runner/test:797:9)
+        async Suite.processPendingSubtests (node:internal/test_runner/test:526:7)
+      ...
+    # Subtest: C8 la base no responde → 500 con mensaje genérico
+    not ok 9 - C8 la base no responde → 500 con mensaje genérico
+      ---
+      duration_ms: 7025.5725
+      location: 'D:\\Angular\\erp_beats\\api\\scripts\\p11\\whitebox.test.ts:2:6237'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly equal:
+        
+        400 !== 500
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: 500
+      actual: 400
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (D:\Angular\erp_beats\api\scripts\p11\whitebox.test.ts:156:12)
+        process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+        async Test.run (node:internal/test_runner/test:797:9)
+        async Suite.processPendingSubtests (node:internal/test_runner/test:526:7)
+      ...
+    # Subtest: C9 ya compró uno de los beats → 409 (conflicto)
+    ok 10 - C9 ya compró uno de los beats → 409 (conflicto)
+      ---
+      duration_ms: 3.0138
+      ...
+    # Subtest: C10 compra válida → 201, total = suma de precios de la BD y JSON consistente
+    ok 11 - C10 compra válida → 201, total = suma de precios de la BD y JSON consistente
+      ---
+      duration_ms: 3.698
+      ...
+    # Subtest: C11 fallan los renglones → 500 y la orden se deshace (sin compras a medias)
+    not ok 12 - C11 fallan los renglones → 500 y la orden se deshace (sin compras a medias)
+      ---
+      duration_ms: 4.0365
+      location: 'D:\\Angular\\erp_beats\\api\\scripts\\p11\\whitebox.test.ts:2:7841'
+      failureType: 'testCodeFailure'
+      error: |-
+        se debe borrar la orden incompleta
+        
+        0 !== 1
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: 1
+      actual: 0
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (D:\Angular\erp_beats\api\scripts\p11\whitebox.test.ts:192:12)
+        process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+        async Test.run (node:internal/test_runner/test:797:9)
+        async Suite.processPendingSubtests (node:internal/test_runner/test:526:7)
+      ...
+    # Subtest: C12 reintento con la misma Idempotency-Key → 200 con la orden original
+    ok 13 - C12 reintento con la misma Idempotency-Key → 200 con la orden original
+      ---
+      duration_ms: 3.1424
+      ...
+    1..13
+not ok 1 - POST /api/orders · caminos del grafo
+  ---
+  duration_ms: 7804.2948
+  type: 'suite'
+  location: 'D:\\Angular\\erp_beats\\api\\scripts\\p11\\whitebox.test.ts:2:3787'
+  failureType: 'subtestsFailed'
+  error: '6 subtests failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: GET /api/beats · caminos del grafo
+    # Subtest: C1 beat existente → 200 con { beat }
+    ok 1 - C1 beat existente → 200 con { beat }
+      ---
+      duration_ms: 1.2717
+      ...
+    # Subtest: C2 id con formato válido pero inexistente → 404
+    ok 2 - C2 id con formato válido pero inexistente → 404
+      ---
+      duration_ms: 0.8385
+      ...
+    # Subtest: C3 id que no es UUID → 404 (no puede existir)
+    ok 3 - C3 id que no es UUID → 404 (no puede existir)
+      ---
+      duration_ms: 1.0014
+      ...
+    # Subtest: C4 la base falla → 500 (antes respondía 404 y ocultaba la caída)
+    not ok 4 - C4 la base falla → 500 (antes respondía 404 y ocultaba la caída)
+      ---
+      duration_ms: 7036.4794
+      location: 'D:\\Angular\\erp_beats\\api\\scripts\\p11\\whitebox.test.ts:2:9809'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly equal:
+        
+        404 !== 500
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: 500
+      actual: 404
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (D:\Angular\erp_beats\api\scripts\p11\whitebox.test.ts:232:12)
+        process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+        async Test.run (node:internal/test_runner/test:797:9)
+        async Suite.processPendingSubtests (node:internal/test_runner/test:526:7)
+      ...
+    # Subtest: C5 lista paginada: límites de limit (0 → 20, 1000 → 100) y estructura estable
+    ok 5 - C5 lista paginada: límites de limit (0 → 20, 1000 → 100) y estructura estable
+      ---
+      duration_ms: 9.206
+      ...
+    # Subtest: C6 búsqueda con caracteres especiales no inyecta filtros en PostgREST
+    ok 6 - C6 búsqueda con caracteres especiales no inyecta filtros en PostgREST
+      ---
+      duration_ms: 1.5715
+      ...
+    1..6
+not ok 2 - GET /api/beats · caminos del grafo
+  ---
+  duration_ms: 7050.7384
+  type: 'suite'
+  location: 'D:\\Angular\\erp_beats\\api\\scripts\\p11\\whitebox.test.ts:2:8917'
+  failureType: 'subtestsFailed'
+  error: '1 subtest failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: POST /api/auth/login y autorización
+    # Subtest: C1 faltan campos → 400
+    ok 1 - C1 faltan campos → 400
+      ---
+      duration_ms: 3.1117
+      ...
+    # Subtest: C2 correo no registrado → 401 genérico (no revela si existe)
+    ok 2 - C2 correo no registrado → 401 genérico (no revela si existe)
+      ---
+      duration_ms: 2.6607
+      ...
+    # Subtest: C3 contraseña incorrecta → 401 con el MISMO mensaje que C2 y suma un intento
+    ok 3 - C3 contraseña incorrecta → 401 con el MISMO mensaje que C2 y suma un intento
+      ---
+      duration_ms: 5.2838
+      ...
+    # Subtest: C4 quinto intento fallido (valor límite) → 423 y bloqueo
+    ok 4 - C4 quinto intento fallido (valor límite) → 423 y bloqueo
+      ---
+      duration_ms: 4.8328
+      ...
+    # Subtest: C5 cuenta bloqueada todavía vigente → 423 sin comparar la contraseña
+    ok 5 - C5 cuenta bloqueada todavía vigente → 423 sin comparar la contraseña
+      ---
+      duration_ms: 1.4195
+      ...
+    # Subtest: C6 cuenta desactivada → 401
+    ok 6 - C6 cuenta desactivada → 401
+      ---
+      duration_ms: 1.0988
+      ...
+    # Subtest: C7 credenciales correctas (admin) → 200 con token y SIN el hash de la contraseña
+    ok 7 - C7 credenciales correctas (admin) → 200 con token y SIN el hash de la contraseña
+      ---
+      duration_ms: 4.7309
+      ...
+    # Subtest: 401 sin token vs 403 con token sin permiso (no se confunden)
+    ok 8 - 401 sin token vs 403 con token sin permiso (no se confunden)
+      ---
+      duration_ms: 4.7085
+      ...
+    # Subtest: la lista de usuarios (admin) no expone contraseñas
+    ok 9 - la lista de usuarios (admin) no expone contraseñas
+      ---
+      duration_ms: 3.4786
+      ...
+    # Subtest: ruta inexistente → 404
+    ok 10 - ruta inexistente → 404
+      ---
+      duration_ms: 0.7384
+      ...
+    1..10
+ok 3 - POST /api/auth/login y autorización
+  ---
+  duration_ms: 32.6794
+  type: 'suite'
+  ...
+# Subtest: validarBeat · valores límite
+    # Subtest: válido
+    ok 1 - válido
+      ---
+      duration_ms: 0.2455
+      ...
+    # Subtest: sin cuerpo
+    ok 2 - sin cuerpo
+      ---
+      duration_ms: 0.0595
+      ...
+    # Subtest: falta precio
+    ok 3 - falta precio
+      ---
+      duration_ms: 0.0604
+      ...
+    # Subtest: nombre 1 carácter (límite -1)
+    ok 4 - nombre 1 carácter (límite -1)
+      ---
+      duration_ms: 0.0533
+      ...
+    # Subtest: nombre 2 caracteres (límite)
+    ok 5 - nombre 2 caracteres (límite)
+      ---
+      duration_ms: 0.0755
+      ...
+    # Subtest: nombre 150 (límite)
+    ok 6 - nombre 150 (límite)
+      ---
+      duration_ms: 0.0858
+      ...
+    # Subtest: nombre 151 (límite +1)
+    ok 7 - nombre 151 (límite +1)
+      ---
+      duration_ms: 0.063
+      ...
+    # Subtest: nombre solo espacios
+    ok 8 - nombre solo espacios
+      ---
+      duration_ms: 0.0561
+      ...
+    # Subtest: bpm 0
+    ok 9 - bpm 0
+      ---
+      duration_ms: 0.0775
+      ...
+    # Subtest: bpm 1
+    ok 10 - bpm 1
+      ---
+      duration_ms: 0.0637
+      ...
+    # Subtest: bpm 299
+    ok 11 - bpm 299
+      ---
+      duration_ms: 0.0521
+      ...
+    # Subtest: bpm 300
+    ok 12 - bpm 300
+      ---
+      duration_ms: 0.0516
+      ...
+    # Subtest: bpm decimal
+    ok 13 - bpm decimal
+      ---
+      duration_ms: 0.0524
+      ...
+    # Subtest: precio 0 (gratis)
+    ok 14 - precio 0 (gratis)
+      ---
+      duration_ms: 0.0482
+      ...
+    # Subtest: precio negativo
+    ok 15 - precio negativo
+      ---
+      duration_ms: 0.0531
+      ...
+    # Subtest: precio máximo
+    ok 16 - precio máximo
+      ---
+      duration_ms: 0.0529
+      ...
+    # Subtest: precio máximo +1
+    ok 17 - precio máximo +1
+      ---
+      duration_ms: 0.0482
+      ...
+    # Subtest: precio texto
+    ok 18 - precio texto
+      ---
+      duration_ms: 0.0546
+      ...
+    # Subtest: género 1 carácter
+    ok 19 - género 1 carácter
+      ---
+      duration_ms: 0.0651
+      ...
+    # Subtest: género 81 caracteres
+    ok 20 - género 81 caracteres
+      ---
+      duration_ms: 0.1308
+      ...
+    1..20
+ok 4 - validarBeat · valores límite
+  ---
+  duration_ms: 1.8243
+  type: 'suite'
+  ...
+# Subtest: claveIdempotencia
+    # Subtest: UUID v4 válido en mayúsculas → se normaliza
+    ok 1 - UUID v4 válido en mayúsculas → se normaliza
+      ---
+      duration_ms: 0.2333
+      ...
+    # Subtest: arreglo de cabeceras → toma la primera
+    ok 2 - arreglo de cabeceras → toma la primera
+      ---
+      duration_ms: 0.0949
+      ...
+    # Subtest: texto que no es UUID → null (no se usa como clave)
+    ok 3 - texto que no es UUID → null (no se usa como clave)
+      ---
+      duration_ms: 0.0702
+      ...
+    # Subtest: sin cabecera → null
+    ok 4 - sin cabecera → null
+      ---
+      duration_ms: 0.0679
+      ...
+    # Subtest: esDuplicado solo con 23505
+    ok 5 - esDuplicado solo con 23505
+      ---
+      duration_ms: 0.094
+      ...
+    1..5
+ok 5 - claveIdempotencia
+  ---
+  duration_ms: 0.7049
+  type: 'suite'
+  ...
+1..5
+# tests 54
+# suites 5
+# pass 47
+# fail 7
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 15280.2752

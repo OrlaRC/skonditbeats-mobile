@@ -1,0 +1,96 @@
+# npm audit report
+
+fast-jwt  <=6.3.3
+Severity: critical
+fast-jwt: JWT auth bypass due to empty HMAC secret accepted by async key resolver - https://github.com/advisories/GHSA-gmvf-9v4p-v8jc
+fast-jwt: Verifier cache accepts expired JWTs without iat. - https://github.com/advisories/GHSA-x937-hj6v-793p
+fast-jwt: createVerifier accepts unsigned JWTs when key is '' or null and algorithms is explicitly set - https://github.com/advisories/GHSA-8wpc-h4q6-8fxv
+fast-jwt: Incomplete patch of CVE-2026-34950: Non-whitespace key-prefix re-enables RSA→HS256 algorithm confusion - https://github.com/advisories/GHSA-ww5h-9m49-7xx4
+fast-jwt clockTolerance: Infinity silently bypasses both exp and nbf validation (and persists in the verifier cache) - https://github.com/advisories/GHSA-687g-22h4-j4w4
+fast-jwt : Silent claim-validator bypass when JWT payload is a JSON array - https://github.com/advisories/GHSA-5hjw-83fp-phq9
+fix available via `npm audit fix`
+node_modules/fast-jwt
+
+fast-uri  3.0.0 - 3.1.8
+Severity: high
+fast-uri vulnerable to host confusion via literal backslash authority delimiter - https://github.com/advisories/GHSA-v2hh-gcrm-f6hx
+fast-uri vulnerable to host confusion via backslash authority introducer - https://github.com/advisories/GHSA-7p8r-x3mc-p8w7
+fast-uri vulnerable to path traversal via percent-encoded dot segments - https://github.com/advisories/GHSA-q3j6-qgpj-74h6
+fast-uri vulnerable to host confusion via percent-encoded authority delimiters - https://github.com/advisories/GHSA-v39h-62p7-jpjc
+fast-uri vulnerable to server-side request forgery via malformed IPv6 normalization - https://github.com/advisories/GHSA-f65p-4m7j-42xc
+fast-uri vulnerable to host confusion via percent-encoded scheme normalization - https://github.com/advisories/GHSA-jqff-g426-hqxp
+fast-uri vulnerable to host confusion via failed IDN canonicalization - https://github.com/advisories/GHSA-4c8g-83qw-93j6
+fast-uri vulnerable to authority injection via an unvalidated port in serialize - https://github.com/advisories/GHSA-qw65-cvwx-89v3
+fast-uri vulnerable to inconsistent host case normalization via percent-encoded octets - https://github.com/advisories/GHSA-hrr3-gc8f-f4qj
+fast-uri vulnerable to URI scheme spoofing via percent-encoded scheme decoding - https://github.com/advisories/GHSA-w74x-v6f9-j3xg
+fast-uri vulnerable to improper path equivalence in relative reference normalization - https://github.com/advisories/GHSA-xhq7-xmqj-769h
+fast-uri vulnerable to scheme injection via an unescaped first-segment colon in suffix references - https://github.com/advisories/GHSA-333x-w4r6-6crp
+fix available via `npm audit fix`
+node_modules/fast-uri
+
+fastify  <=5.12.4
+Severity: high
+Fastify has a Body Schema Validation Bypass via Leading Space in Content-Type Header - https://github.com/advisories/GHSA-247c-9743-5963
+fastify vulnerable to schema validation bypass via root primitive coercion mismatch - https://github.com/advisories/GHSA-w2qp-rph6-63g4
+fastify vulnerable to X-Forwarded-* spoofing under trustProxy hop-count - https://github.com/advisories/GHSA-3m5p-2c4r-xxw2
+fastify vulnerable to Denial of Service via unhandled exception on HTTP/2 trailer responses - https://github.com/advisories/GHSA-4mh8-r7rc-xpvc
+fastify vulnerable to request body replacement via an async validation result collision - https://github.com/advisories/GHSA-667r-xxjv-c9mm
+fastify vulnerable to authentication bypass via malformed URLs reaching encapsulated not-found handlers - https://github.com/advisories/GHSA-p68q-wchp-6fh7
+fastify vulnerable to request validation bypass via skipped boolean false schemas - https://github.com/advisories/GHSA-hwr6-493r-vm6h
+fastify vulnerable to header validation bypass via incomplete schema case normalization - https://github.com/advisories/GHSA-9q9j-q6p8-xq58
+fix available via `npm audit fix`
+node_modules/fastify
+
+find-my-way  <=9.6.0
+Severity: high
+find-my-way: DDoS with HTTP2 - https://github.com/advisories/GHSA-c96f-x56v-gq3h
+fix available via `npm audit fix`
+node_modules/find-my-way
+
+nodemailer  <=10.1.3
+Severity: high
+Nodemailer: CRLF injection in Nodemailer List-* header comments allows arbitrary message header injection - https://github.com/advisories/GHSA-268h-hp4c-crq3
+Nodemailer jsonTransport bypasses disableFileAccess and disableUrlAccess during message normalization - https://github.com/advisories/GHSA-wqvq-jvpq-h66f
+Nodemailer: Message-level raw option bypasses disableFileAccess/disableUrlAccess, enabling arbitrary file read and full-response SSRF in the delivered message - https://github.com/advisories/GHSA-p6gq-j5cr-w38f
+Nodemailer: resolveContent() on a MailMessage bypasses disableFileAccess/disableUrlAccess when called with the legacy signature - https://github.com/advisories/GHSA-8m3c-c648-2xjj
+Nodemailer: IDN/Punycode domain allow-list bypass leads to email delivery to an attacker-controlled domain - https://github.com/advisories/GHSA-wmmp-3585-3rmp
+Nodemailer: Quadratic (O(n²)) time complexity in addressparser allows remote denial of service via a crafted address list - https://github.com/advisories/GHSA-2x7j-588g-ccc2
+Nodemailer: Recipient-domain validation bypass via RFC 5322 comment mis-parsing leads to email delivery to an attacker-controlled domain - https://github.com/advisories/GHSA-cc9r-2j5m-2m83
+Nodemailer: Process-global DNS cache reuses TLS `servername` across transports, enabling cross-tenant SMTP credential disclosure - https://github.com/advisories/GHSA-6vj9-mwq6-2f5v
+Nodemailer: Nested structured recipient arrays bypass the parser depth limit and cause stack exhaustion DoS - https://github.com/advisories/GHSA-8vvx-rff5-p5rq
+Nodemailer: Quadratic backtracking in the addressparser free-text fallback allows remote denial of service - https://github.com/advisories/GHSA-v53p-9fqp-m79j
+Nodemailer: Improper TLS Certificate Validation in OAuth2 Token Fetch Enables Credential Interception - https://github.com/advisories/GHSA-r7g4-qg5f-qqm2
+Nodemailer: Quadratic (O(n^2)) DKIM header unfolding lets a large folded header cause remote denial of service during signing - https://github.com/advisories/GHSA-39m8-27wv-hr27
+Nodemailer: A nested comment ends early in addressparser, releasing the rest of the comment as a recipient - https://github.com/advisories/GHSA-8c8m-p3m8-cjg8
+Nodemailer: A ";" inside a quoted string or comment ends an address group early in addressparser, turning display text into a recipient - https://github.com/advisories/GHSA-m943-m63m-w62w
+Nodemailer: A ">" inside a quoted local part ends an angle-addr early in addressparser, delivering to a domain the header does not name - https://github.com/advisories/GHSA-85x2-q946-cp5h
+Nodemailer: Quadratic backtracking in SMTP AUTH mechanism detection regexes allows pre-auth remote denial of service - https://github.com/advisories/GHSA-4ffr-jq9g-5ffx
+Nodemailer: RFC 5322 comment inside an angle-bracket address is never stripped - https://github.com/advisories/GHSA-g73g-hqqh-jr95
+Nodemailer: Quadratic (O(n^2)) SMTP client reply parsing lets a malicious server or MITM cause a pre-auth remote denial of service - https://github.com/advisories/GHSA-4g23-2xm8-66gc
+fix available via `npm audit fix --force`
+Will install nodemailer@10.5.0, which is a breaking change
+node_modules/nodemailer
+
+qs  2.2.5 - 6.16.0
+Severity: moderate
+qs has a remotely triggerable DoS: qs.stringify crashes with TypeError on null/undefined entries in comma-format arrays when encodeValuesOnly is set - https://github.com/advisories/GHSA-q8mj-m7cp-5q26
+qs array-limit bypass via bracket-key comma parsing - https://github.com/advisories/GHSA-x5fp-wj9c-mxmx
+qs: Denial of Service via Attacker Controlled isBuffer - https://github.com/advisories/GHSA-4mjr-xmp4-gh2g
+qs : qs.stringify with arrayFormat 'comma' throws an uncaught TypeError on array elements carrying a non-callable own toString (DoS) - https://github.com/advisories/GHSA-6pq8-jhm2-2vcw
+fix available via `npm audit fix`
+node_modules/qs
+
+ws  8.0.0 - 8.20.1
+Severity: high
+ws: Uninitialized memory disclosure - https://github.com/advisories/GHSA-58qx-3vcg-4xpx
+ws: Memory exhaustion DoS from tiny fragments and data chunks - https://github.com/advisories/GHSA-96hv-2xvq-fx4p
+fix available via `npm audit fix`
+node_modules/ws
+
+7 vulnerabilities (1 moderate, 5 high, 1 critical)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force

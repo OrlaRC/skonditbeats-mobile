@@ -1,0 +1,79 @@
+[
+  {
+    "metodo": "M1 Validators.cardExpiry",
+    "archivo": "lib/core/utils/validators.dart",
+    "lineas": "99-110",
+    "instr_cubiertas": 8,
+    "instr_total": 8,
+    "ramas_cubiertas": 5,
+    "ramas_total": 5,
+    "lineas_sin_cubrir": [],
+    "lineas_con_rama_sin_cubrir": []
+  },
+  {
+    "metodo": "M2 Validators.luhn",
+    "archivo": "lib/core/utils/validators.dart",
+    "lineas": "67-79",
+    "instr_cubiertas": 9,
+    "instr_total": 9,
+    "ramas_cubiertas": 5,
+    "ramas_total": 5,
+    "lineas_sin_cubrir": [],
+    "lineas_con_rama_sin_cubrir": []
+  },
+  {
+    "metodo": "M3 CartController.addPack",
+    "archivo": "lib/features/cart/presentation/cart_controller.dart",
+    "lineas": "64-89",
+    "instr_cubiertas": 16,
+    "instr_total": 16,
+    "ramas_cubiertas": 7,
+    "ramas_total": 7,
+    "lineas_sin_cubrir": [],
+    "lineas_con_rama_sin_cubrir": []
+  },
+  {
+    "metodo": "M3b CartController.addBeat",
+    "archivo": "lib/features/cart/presentation/cart_controller.dart",
+    "lineas": "51-62",
+    "instr_cubiertas": 7,
+    "instr_total": 7,
+    "ramas_cubiertas": 5,
+    "ramas_total": 5,
+    "lineas_sin_cubrir": [],
+    "lineas_con_rama_sin_cubrir": []
+  },
+  {
+    "metodo": "M4 ApiException.fromDio",
+    "archivo": "lib/core/network/api_client.dart",
+    "lineas": "22-58",
+    "instr_cubiertas": 24,
+    "instr_total": 24,
+    "ramas_cubiertas": 12,
+    "ramas_total": 12,
+    "lineas_sin_cubrir": [],
+    "lineas_con_rama_sin_cubrir": []
+  },
+  {
+    "metodo": "M5 ReintentoInterceptor.onError",
+    "archivo": "lib/core/network/api_client.dart",
+    "lineas": "138-154",
+    "instr_cubiertas": 10,
+    "instr_total": 10,
+    "ramas_cubiertas": 3,
+    "ramas_total": 3,
+    "lineas_sin_cubrir": [],
+    "lineas_con_rama_sin_cubrir": []
+  },
+  {
+    "metodo": "M5b ReintentoInterceptor.esTransitorio",
+    "archivo": "lib/core/network/api_client.dart",
+    "lineas": "125-135",
+    "instr_cubiertas": 7,
+    "instr_total": 7,
+    "ramas_cubiertas": 5,
+    "ramas_total": 5,
+    "lineas_sin_cubrir": [],
+    "lineas_con_rama_sin_cubrir": []
+  }
+]

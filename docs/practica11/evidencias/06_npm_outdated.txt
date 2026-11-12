@@ -1,0 +1,14 @@
+Package                 Current   Wanted   Latest  Location                            Depended by
+@fastify/cors            11.2.0   11.4.1   11.4.1  node_modules/@fastify/cors          api
+@fastify/jwt             10.0.0   10.2.7   10.2.7  node_modules/@fastify/jwt           api
+@supabase/supabase-js   2.103.0  2.109.0  2.109.0  node_modules/@supabase/supabase-js  api
+@types/node            22.19.17  22.20.5   26.6.6  node_modules/@types/node            api
+@types/nodemailer         8.0.0    8.0.2    8.0.2  node_modules/@types/nodemailer      api
+@vercel/node             5.10.2   5.10.2   30.0.0  node_modules/@vercel/node           api
+bcryptjs                  2.4.3    2.4.3    3.0.3  node_modules/bcryptjs               api
+google-auth-library      10.6.2   10.9.1   10.9.1  node_modules/google-auth-library    api
+googleapis              171.4.0  171.4.0  178.0.0  node_modules/googleapis             api
+nodemailer               8.0.11   8.0.11   10.5.0  node_modules/nodemailer             api
+pino-pretty              13.1.3   13.2.0   13.2.0  node_modules/pino-pretty            api
+tsx                      4.21.0  4.23.15  4.23.15  node_modules/tsx                    api
+typescript                5.9.3    5.9.3    7.0.2  node_modules/typescript             api
