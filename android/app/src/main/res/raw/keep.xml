@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- En release, Android borra los recursos que no ve referenciados. Los íconos de
+     los botones del reproductor (audio_service) y de las notificaciones se piden
+     por nombre en texto, así que se borraban y la notificación quedaba sin botones. -->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@drawable/audio_service_*,@drawable/ic_cerrar,@drawable/ic_notification" />

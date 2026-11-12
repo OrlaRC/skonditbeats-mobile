@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Celular (USB)",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "UHYNW21803001907",
+      "args": ["--dart-define=API_URL=http://127.0.0.1:3000/api"],
+      "preLaunchTask": "adb reverse"
+    }
+  ]
+}

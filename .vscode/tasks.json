@@ -1,0 +1,10 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "adb reverse",
+      "type": "shell",
+      "command": "D:\AndroidSDK\platform-tools\adb.exe reverse tcp:3000 tcp:3000"
+    }
+  ]
+}
