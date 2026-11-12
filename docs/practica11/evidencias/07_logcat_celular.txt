@@ -1,0 +1,61 @@
+Práctica 11 · Registros reales del celular (adb logcat, filtro "[p12]")
+Dispositivo: Huawei FRL-L23 · Android 10 · APK profile (flutter build apk --profile)
+API: http://127.0.0.1:3000/api por USB (adb reverse tcp:3000) · Fecha: 2026-11-11
+
+== NET-02 · Tienda: 10 recargas consecutivas (jalar para actualizar)
+[p12] GET /beats 200 · 24 ms · 5.5 KB · intento 1
+[p12] GET /orders/mis-compras 200 · 23 ms · 5.0 KB · intento 1
+[p12] GET /beats 200 · 23 ms · 5.5 KB · intento 1
+[p12] GET /orders/mis-compras 200 · 56 ms · 5.0 KB · intento 1
+[p12] GET /contact/no-leidos 500 · 15 ms · ? KB · intento 1      <- DEF-11 (columna faltante en la base local)
+[p12] GET /beats 200 · 17 ms · 5.5 KB · intento 1
+[p12] GET /orders/mis-compras 200 · 46 ms · 5.0 KB · intento 1
+[p12] GET /beats 200 · 25 ms · 5.5 KB · intento 1
+[p12] GET /orders/mis-compras 200 · 66 ms · 5.0 KB · intento 1
+[p12] GET /beats 200 · 22 ms · 5.5 KB · intento 1
+[p12] GET /orders/mis-compras 200 · 20 ms · 5.0 KB · intento 1
+[p12] GET /beats 200 · 24 ms · 5.5 KB · intento 1
+[p12] GET /orders/mis-compras 200 · 18 ms · 5.0 KB · intento 1
+[p12] GET /beats 200 · 43 ms · 5.5 KB · intento 1
+[p12] GET /orders/mis-compras 200 · 32 ms · 5.0 KB · intento 1
+[p12] GET /beats 200 · 27 ms · 5.5 KB · intento 1
+[p12] GET /orders/mis-compras 200 · 57 ms · 5.0 KB · intento 1
+[p12] GET /beats 200 · 17 ms · 5.5 KB · intento 1
+[p12] GET /orders/mis-compras 200 · 17 ms · 5.0 KB · intento 1
+[p12] GET /beats 200 · 43 ms · 5.5 KB · intento 1
+[p12] GET /orders/mis-compras 200 · 34 ms · 5.0 KB · intento 1
+[p12] GET /beats 200 · 22 ms · 5.5 KB · intento 1
+[p12] GET /orders/mis-compras 200 · 41 ms · 5.0 KB · intento 1
+[p12] GET /contact/no-leidos 500 · 12 ms · ? KB · intento 1
+
+== NET-05 escenario 1 · sin conexión ANTES de enviar (adb reverse --remove tcp:3000)
+[p12] POST /contact sin respuesta · 1435 ms · ? KB · intento 3
+[p12] POST /contact sin respuesta · 1435 ms · ? KB · intento 3      <- DEF-12 (misma falla registrada 3 veces)
+[p12] POST /contact sin respuesta · 1436 ms · ? KB · intento 3
+BD: select count(*) from contact_messages where asunto like 'P11 corte%'  ->  0
+
+== NET-06 escenario 1 · conexión restaurada, mismo formulario (misma Idempotency-Key)
+[p12] POST /contact 201 · 55 ms · 0.1 KB · intento 1
+BD: 12121 | P11 corte antes de enviar | c71199da-eccc-40c7-b798-90504cecf26a
+
+== Prueba intermedia · adb reverse --remove con la petición en vuelo (tabla bloqueada 15 s)
+[p12] POST /contact 201 · 13403 ms · 0.1 KB · intento 1
+Observación: quitar el reenvío de puertos NO corta las conexiones TCP ya abiertas;
+la respuesta llegó al liberarse el candado. Para cortar a media petición se usó adb kill-server.
+
+== NET-05 escenario 2 · conexión perdida DESPUÉS de enviar y ANTES de la respuesta
+  envío: 1744 ms · túnel USB cortado (adb kill-server): 4532 ms · candado liberado: 12149 ms
+[p12] POST /contact sin respuesta · 9951 ms · ? KB · intento 3
+[p12] POST /contact sin respuesta · 9952 ms · ? KB · intento 3
+[p12] POST /contact sin respuesta · 9952 ms · ? KB · intento 3
+BD tras liberar el candado: 12123 | P11 respuesta perdida | 2648b99f-9084-43f3-b84a-b30cb3d6d12f
+  (el servidor SÍ guardó el ticket aunque la app no recibió la respuesta)
+
+== NET-06 escenario 2 · túnel restaurado, reintento con la misma Idempotency-Key
+[p12] POST /contact 200 · 50 ms · 0.1 KB · intento 1      <- 200 (no 201): el servidor devolvió el ticket existente
+App: "Ticket #12123 creado"
+BD final (asunto like 'P11%'):
+12121|P11 corte antes de enviar|c71199da-eccc-40c7-b798-90504cecf26a|2026-11-11 19:11:28.53837-06
+12122|P11 corte en vuelo|3bee7ac9-dac7-410e-a894-cb2c1c4d2caa|2026-11-11 19:12:09.707397-06
+12123|P11 respuesta perdida|2648b99f-9084-43f3-b84a-b30cb3d6d12f|2026-11-11 19:13:03.618467-06
+=> 3 operaciones, 3 registros: ningún duplicado.

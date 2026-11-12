@@ -5,6 +5,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:skondit_beats_mobile/core/network/api_client.dart';
 
@@ -205,6 +206,31 @@ void main() {
       expect(r.statusCode, 201);
       expect(golpes, 2);
     });
+  });
+
+  test('MedicionInterceptor: con reintentos registra UNA línea por petición (DEF-12)', () async {
+    final lineas = <String>[];
+    final original = debugPrint;
+    debugPrint = (String? m, {int? wrapWidth}) => lineas.add(m ?? '');
+    addTearDown(() => debugPrint = original);
+
+    final srv = await HttpServer.bind(InternetAddress.loopbackIPv4, 0);
+    srv.listen((r) async {
+      await r.drain<void>();
+      r.response.statusCode = 503;
+      await r.response.close();
+    });
+    final d = Dio(BaseOptions(baseUrl: 'http://127.0.0.1:${srv.port}'));
+    d.interceptors
+      ..add(ReintentoInterceptor(d, esperar: (_) async {}))
+      ..add(MedicionInterceptor());
+    await expectLater(d.get<dynamic>('/beats'), throwsA(isA<DioException>()));
+    await srv.close(force: true);
+
+    final p12 = lineas.where((l) => l.startsWith('[p12]')).toList();
+    expect(p12, hasLength(1), reason: p12.join('\n'));
+    expect(p12.single, contains('503'));
+    expect(p12.single, contains('intento 3'));
   });
 
   test('MedicionInterceptor registra la petición sin alterar la respuesta', () async {

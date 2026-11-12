@@ -1,4 +1,4 @@
-Método                                      Líneas   Instrucciones         Ramas  Sin cubrir
+﻿Método                                      Líneas   Instrucciones         Ramas  Sin cubrir
 M1 Validators.cardExpiry                    99-110    8/8    100.0%   5/5   100.0%  -
 M2 Validators.luhn                           67-79    9/9    100.0%   5/5   100.0%  -
 M3 CartController.addPack                    64-89   16/16   100.0%   7/7   100.0%  -
@@ -7,4 +7,4 @@ M4 ApiException.fromDio                      22-58   24/24   100.0%  12/12  100.
 M5 ReintentoInterceptor.onError            138-154   10/10   100.0%   3/3   100.0%  -
 M5b ReintentoInterceptor.esTransitorio     125-135    7/7    100.0%   5/5   100.0%  -
 TOTAL módulos críticos                               81/81   100.0%  42/42  100.0%
-GLOBAL (todo lib/ con pruebas)                      514/1112  46.2% 233/533  43.7%
+GLOBAL (todo lib/ con pruebas)                      516/1114  46.3% 234/533  43.9%

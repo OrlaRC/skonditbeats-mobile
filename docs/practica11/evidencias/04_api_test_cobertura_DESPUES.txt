@@ -1,0 +1,537 @@
+﻿TAP version 13
+# Subtest: POST /api/orders · caminos del grafo
+    # Subtest: C1 sin token → 401 (no autenticado)
+    ok 1 - C1 sin token → 401 (no autenticado)
+      ---
+      duration_ms: 26.2743
+      ...
+    # Subtest: C2 lista vacía (minItems = 1, valor límite 0) → 400 por esquema
+    ok 2 - C2 lista vacía (minItems = 1, valor límite 0) → 400 por esquema
+      ---
+      duration_ms: 9.4522
+      ...
+    # Subtest: C3 cuerpo sin beats ni packId → 400
+    ok 3 - C3 cuerpo sin beats ni packId → 400
+      ---
+      duration_ms: 12.1954
+      ...
+    # Subtest: C4 tipo incorrecto: un número en lugar de arreglo → 400
+    ok 4 - C4 tipo incorrecto: un número en lugar de arreglo → 400
+      ---
+      duration_ms: 2.3689
+      ...
+    # Subtest: C4b un texto suelto se convierte en arreglo (coerceTypes de Fastify) y aun así se rechaza
+    ok 5 - C4b un texto suelto se convierte en arreglo (coerceTypes de Fastify) y aun así se rechaza
+      ---
+      duration_ms: 4.2861
+      ...
+    # Subtest: C5 beat inexistente → 422 y no se escribe nada
+    ok 6 - C5 beat inexistente → 422 y no se escribe nada
+      ---
+      duration_ms: 2.3534
+      ...
+    # Subtest: C6 uno existe y otro no → 422 (antes cobraba solo el que existía)
+    ok 7 - C6 uno existe y otro no → 422 (antes cobraba solo el que existía)
+      ---
+      duration_ms: 3.0569
+      ...
+    # Subtest: C7 id con formato inválido (PostgreSQL 22P02) → 422, no 500
+    ok 8 - C7 id con formato inválido (PostgreSQL 22P02) → 422, no 500
+      ---
+      duration_ms: 1.7682
+      ...
+    # Subtest: C8 la base no responde → 500 con mensaje genérico
+    ok 9 - C8 la base no responde → 500 con mensaje genérico
+      ---
+      duration_ms: 7031.4568
+      ...
+    # Subtest: C9 ya compró uno de los beats → 409 (conflicto)
+    ok 10 - C9 ya compró uno de los beats → 409 (conflicto)
+      ---
+      duration_ms: 2.2458
+      ...
+    # Subtest: C10 compra válida → 201, total = suma de precios de la BD y JSON consistente
+    ok 11 - C10 compra válida → 201, total = suma de precios de la BD y JSON consistente
+      ---
+      duration_ms: 3.6342
+      ...
+    # Subtest: C11 fallan los renglones → 500 y la orden se deshace (sin compras a medias)
+    ok 12 - C11 fallan los renglones → 500 y la orden se deshace (sin compras a medias)
+      ---
+      duration_ms: 13.4946
+      ...
+    # Subtest: C11b otra compra simultánea ganó la carrera (trg_compra_unica, 23505) → 409 y se deshace
+    ok 13 - C11b otra compra simultánea ganó la carrera (trg_compra_unica, 23505) → 409 y se deshace
+      ---
+      duration_ms: 3.2449
+      ...
+    # Subtest: C12 reintento con la misma Idempotency-Key → 200 con la orden original
+    ok 14 - C12 reintento con la misma Idempotency-Key → 200 con la orden original
+      ---
+      duration_ms: 1.8121
+      ...
+    1..14
+ok 1 - POST /api/orders · caminos del grafo
+  ---
+  duration_ms: 7905.0784
+  type: 'suite'
+  ...
+# Subtest: GET /api/beats · caminos del grafo
+    # Subtest: C1 beat existente → 200 con { beat }
+    ok 1 - C1 beat existente → 200 con { beat }
+      ---
+      duration_ms: 1.1257
+      ...
+    # Subtest: C2 id con formato válido pero inexistente → 404
+    ok 2 - C2 id con formato válido pero inexistente → 404
+      ---
+      duration_ms: 0.8978
+      ...
+    # Subtest: C3 id que no es UUID → 404 (no puede existir)
+    ok 3 - C3 id que no es UUID → 404 (no puede existir)
+      ---
+      duration_ms: 0.7077
+      ...
+    # Subtest: C4 la base falla → 500 (antes respondía 404 y ocultaba la caída)
+    ok 4 - C4 la base falla → 500 (antes respondía 404 y ocultaba la caída)
+      ---
+      duration_ms: 7030.3536
+      ...
+    # Subtest: C5 lista paginada: límites de limit (0 → 20, 1000 → 100) y estructura estable
+    ok 5 - C5 lista paginada: límites de limit (0 → 20, 1000 → 100) y estructura estable
+      ---
+      duration_ms: 6.374
+      ...
+    # Subtest: C6 búsqueda con caracteres especiales no inyecta filtros en PostgREST
+    ok 6 - C6 búsqueda con caracteres especiales no inyecta filtros en PostgREST
+      ---
+      duration_ms: 1.3411
+      ...
+    1..6
+ok 2 - GET /api/beats · caminos del grafo
+  ---
+  duration_ms: 7041.0918
+  type: 'suite'
+  ...
+# Subtest: POST /api/auth/login y autorización
+    # Subtest: C1 faltan campos → 400
+    ok 1 - C1 faltan campos → 400
+      ---
+      duration_ms: 3.0164
+      ...
+    # Subtest: C2 correo no registrado → 401 genérico (no revela si existe)
+    ok 2 - C2 correo no registrado → 401 genérico (no revela si existe)
+      ---
+      duration_ms: 2.0251
+      ...
+    # Subtest: C3 contraseña incorrecta → 401 con el MISMO mensaje que C2 y suma un intento
+    ok 3 - C3 contraseña incorrecta → 401 con el MISMO mensaje que C2 y suma un intento
+      ---
+      duration_ms: 4.114
+      ...
+    # Subtest: C4 quinto intento fallido (valor límite) → 423 y bloqueo
+    ok 4 - C4 quinto intento fallido (valor límite) → 423 y bloqueo
+      ---
+      duration_ms: 2.9222
+      ...
+    # Subtest: C5 cuenta bloqueada todavía vigente → 423 sin comparar la contraseña
+    ok 5 - C5 cuenta bloqueada todavía vigente → 423 sin comparar la contraseña
+      ---
+      duration_ms: 1.9483
+      ...
+    # Subtest: C6 cuenta desactivada → 401
+    ok 6 - C6 cuenta desactivada → 401
+      ---
+      duration_ms: 0.9617
+      ...
+    # Subtest: C7 credenciales correctas (admin) → 200 con token y SIN el hash de la contraseña
+    ok 7 - C7 credenciales correctas (admin) → 200 con token y SIN el hash de la contraseña
+      ---
+      duration_ms: 2.7516
+      ...
+    # Subtest: 401 sin token vs 403 con token sin permiso (no se confunden)
+    ok 8 - 401 sin token vs 403 con token sin permiso (no se confunden)
+      ---
+      duration_ms: 1.8332
+      ...
+    # Subtest: la lista de usuarios (admin) no expone contraseñas
+    ok 9 - la lista de usuarios (admin) no expone contraseñas
+      ---
+      duration_ms: 1.4438
+      ...
+    # Subtest: correo con formato inválido → 400 en registro y contacto (antes se aceptaba)
+    ok 10 - correo con formato inválido → 400 en registro y contacto (antes se aceptaba)
+      ---
+      duration_ms: 5.024
+      ...
+    # Subtest: ruta inexistente → 404
+    ok 11 - ruta inexistente → 404
+      ---
+      duration_ms: 0.6921
+      ...
+    1..11
+ok 3 - POST /api/auth/login y autorización
+  ---
+  duration_ms: 27.2095
+  type: 'suite'
+  ...
+# Subtest: validarBeat · valores límite
+    # Subtest: válido
+    ok 1 - válido
+      ---
+      duration_ms: 0.2836
+      ...
+    # Subtest: sin cuerpo
+    ok 2 - sin cuerpo
+      ---
+      duration_ms: 0.0795
+      ...
+    # Subtest: falta precio
+    ok 3 - falta precio
+      ---
+      duration_ms: 0.0723
+      ...
+    # Subtest: nombre 1 carácter (límite -1)
+    ok 4 - nombre 1 carácter (límite -1)
+      ---
+      duration_ms: 0.0744
+      ...
+    # Subtest: nombre 2 caracteres (límite)
+    ok 5 - nombre 2 caracteres (límite)
+      ---
+      duration_ms: 0.0749
+      ...
+    # Subtest: nombre 150 (límite)
+    ok 6 - nombre 150 (límite)
+      ---
+      duration_ms: 0.072
+      ...
+    # Subtest: nombre 151 (límite +1)
+    ok 7 - nombre 151 (límite +1)
+      ---
+      duration_ms: 0.0722
+      ...
+    # Subtest: nombre solo espacios
+    ok 8 - nombre solo espacios
+      ---
+      duration_ms: 0.066
+      ...
+    # Subtest: bpm 0
+    ok 9 - bpm 0
+      ---
+      duration_ms: 0.0654
+      ...
+    # Subtest: bpm 1
+    ok 10 - bpm 1
+      ---
+      duration_ms: 0.0709
+      ...
+    # Subtest: bpm 299
+    ok 11 - bpm 299
+      ---
+      duration_ms: 0.0738
+      ...
+    # Subtest: bpm 300
+    ok 12 - bpm 300
+      ---
+      duration_ms: 0.0759
+      ...
+    # Subtest: bpm decimal
+    ok 13 - bpm decimal
+      ---
+      duration_ms: 0.1303
+      ...
+    # Subtest: precio 0 (gratis)
+    ok 14 - precio 0 (gratis)
+      ---
+      duration_ms: 0.154
+      ...
+    # Subtest: precio negativo
+    ok 15 - precio negativo
+      ---
+      duration_ms: 0.0711
+      ...
+    # Subtest: precio máximo
+    ok 16 - precio máximo
+      ---
+      duration_ms: 0.0688
+      ...
+    # Subtest: precio máximo +1
+    ok 17 - precio máximo +1
+      ---
+      duration_ms: 0.07
+      ...
+    # Subtest: precio texto
+    ok 18 - precio texto
+      ---
+      duration_ms: 0.065
+      ...
+    # Subtest: género 1 carácter
+    ok 19 - género 1 carácter
+      ---
+      duration_ms: 0.0626
+      ...
+    # Subtest: género 81 caracteres
+    ok 20 - género 81 caracteres
+      ---
+      duration_ms: 0.7045
+      ...
+    1..20
+ok 4 - validarBeat · valores límite
+  ---
+  duration_ms: 2.8087
+  type: 'suite'
+  ...
+# Subtest: claveIdempotencia
+    # Subtest: UUID v4 válido en mayúsculas → se normaliza
+    ok 1 - UUID v4 válido en mayúsculas → se normaliza
+      ---
+      duration_ms: 0.2334
+      ...
+    # Subtest: arreglo de cabeceras → toma la primera
+    ok 2 - arreglo de cabeceras → toma la primera
+      ---
+      duration_ms: 0.1143
+      ...
+    # Subtest: texto que no es UUID → null (no se usa como clave)
+    ok 3 - texto que no es UUID → null (no se usa como clave)
+      ---
+      duration_ms: 0.0936
+      ...
+    # Subtest: sin cabecera → null
+    ok 4 - sin cabecera → null
+      ---
+      duration_ms: 0.115
+      ...
+    # Subtest: esDuplicado solo con 23505
+    ok 5 - esDuplicado solo con 23505
+      ---
+      duration_ms: 0.1176
+      ...
+    1..5
+ok 5 - claveIdempotencia
+  ---
+  duration_ms: 0.8269
+  type: 'suite'
+  ...
+# Subtest: un SUPER_ADMIN entra al panel igual que un ADMIN
+ok 6 - un SUPER_ADMIN entra al panel igual que un ADMIN
+  ---
+  duration_ms: 1166.2827
+  ...
+# Subtest: un ADMIN gestiona clientes pero no administradores
+ok 7 - un ADMIN gestiona clientes pero no administradores
+  ---
+  duration_ms: 24.6888
+  ...
+# Subtest: el SUPER_ADMIN asigna y quita roles de administrador
+ok 8 - el SUPER_ADMIN asigna y quita roles de administrador
+  ---
+  duration_ms: 11.3233
+  ...
+# Subtest: nadie cambia su propio rol y no puede quedar cero super administradores
+ok 9 - nadie cambia su propio rol y no puede quedar cero super administradores
+  ---
+  duration_ms: 8.8103
+  ...
+# Subtest: responder un ticket marca la novedad para el otro lado
+ok 10 - responder un ticket marca la novedad para el otro lado
+  ---
+  duration_ms: 7.3244
+  ...
+# Subtest: los avisos no leídos se filtran por quien pregunta
+ok 11 - los avisos no leídos se filtran por quien pregunta
+  ---
+  duration_ms: 2.851
+  ...
+# Subtest: marcar visto solo apaga el aviso de quien lo ve, y un cliente solo el suyo
+ok 12 - marcar visto solo apaga el aviso de quien lo ve, y un cliente solo el suyo
+  ---
+  duration_ms: 3.5706
+  ...
+# Subtest: sin token se responde 401
+ok 13 - sin token se responde 401
+  ---
+  duration_ms: 1150.3097
+  ...
+# Subtest: un token firmado con otro secreto se rechaza aunque diga ADMIN
+ok 14 - un token firmado con otro secreto se rechaza aunque diga ADMIN
+  ---
+  duration_ms: 4.6143
+  ...
+# Subtest: un cliente recibe 403 en las rutas de administrador
+ok 15 - un cliente recibe 403 en las rutas de administrador
+  ---
+  duration_ms: 37.0261
+  ...
+# Subtest: un admin degradado pierde el acceso aunque su token diga ADMIN
+ok 16 - un admin degradado pierde el acceso aunque su token diga ADMIN
+  ---
+  duration_ms: 1.5761
+  ...
+# Subtest: una cuenta desactivada o inexistente ya no entra con su token
+ok 17 - una cuenta desactivada o inexistente ya no entra con su token
+  ---
+  duration_ms: 2.9181
+  ...
+# Subtest: un cliente no puede hacerse ADMIN editando su perfil
+ok 18 - un cliente no puede hacerse ADMIN editando su perfil
+  ---
+  duration_ms: 6.5238
+  ...
+# Subtest: las compras se consultan solo del dueño del token
+ok 19 - las compras se consultan solo del dueño del token
+  ---
+  duration_ms: 3.3179
+  ...
+# Subtest: solo el dueño o un admin responden un mensaje
+ok 20 - solo el dueño o un admin responden un mensaje
+  ---
+  duration_ms: 10.828
+  ...
+# Subtest: un caso solo se pasa a un administrador activo
+ok 21 - un caso solo se pasa a un administrador activo
+  ---
+  duration_ms: 4.1071
+  ...
+# Subtest: el mensaje se liga a la cuenta del token, no a lo que mande el cuerpo
+ok 22 - el mensaje se liga a la cuenta del token, no a lo que mande el cuerpo
+  ---
+  duration_ms: 4.8777
+  ...
+# Subtest: un cliente solo pide URLs de subida para su foto
+ok 23 - un cliente solo pide URLs de subida para su foto
+  ---
+  duration_ms: 7.1567
+  ...
+# Subtest: un reporte de error abre un ticket de prioridad alta y devuelve su folio
+ok 24 - un reporte de error abre un ticket de prioridad alta y devuelve su folio
+  ---
+  duration_ms: 1138.6779
+  ...
+# Subtest: reintentar el mismo ticket no lo duplica: responde el original
+ok 25 - reintentar el mismo ticket no lo duplica: responde el original
+  ---
+  duration_ms: 7.0644
+  ...
+# Subtest: una clave de idempotencia mal formada se ignora en vez de guardarse
+ok 26 - una clave de idempotencia mal formada se ignora en vez de guardarse
+  ---
+  duration_ms: 3.5667
+  ...
+# Subtest: la bandeja paginada pide solo una página y el conteo de respuestas
+ok 27 - la bandeja paginada pide solo una página y el conteo de respuestas
+  ---
+  duration_ms: 6.4087
+  ...
+# Subtest: sin limit la bandeja responde como antes, para la web
+ok 28 - sin limit la bandeja responde como antes, para la web
+  ---
+  duration_ms: 3.9728
+  ...
+# Subtest: el cliente solo ve sus tickets y no puede filtrar por admin asignado
+ok 29 - el cliente solo ve sus tickets y no puede filtrar por admin asignado
+  ---
+  duration_ms: 3.8079
+  ...
+# Subtest: el detalle de un ticket ajeno se responde como inexistente
+ok 30 - el detalle de un ticket ajeno se responde como inexistente
+  ---
+  duration_ms: 7.9415
+  ...
+# Subtest: el cliente puede cerrar su ticket pero no ponerlo en proceso
+ok 31 - el cliente puede cerrar su ticket pero no ponerlo en proceso
+  ---
+  duration_ms: 16.7644
+  ...
+# Subtest: dos admins mueven el mismo ticket: el segundo recibe 409 y no pisa el cambio
+ok 32 - dos admins mueven el mismo ticket: el segundo recibe 409 y no pisa el cambio
+  ---
+  duration_ms: 3.8376
+  ...
+# Subtest: no se puede responder un ticket cerrado
+ok 33 - no se puede responder un ticket cerrado
+  ---
+  duration_ms: 3.9128
+  ...
+# Subtest: reintentar una respuesta no la duplica ni reenvía el correo
+ok 34 - reintentar una respuesta no la duplica ni reenvía el correo
+  ---
+  duration_ms: 3.5011
+  ...
+# Subtest: solo un admin cambia la prioridad
+ok 35 - solo un admin cambia la prioridad
+  ---
+  duration_ms: 3.9704
+  ...
+# Subtest: la tienda paginada hace una sola consulta extra y la reutiliza (caché)
+ok 36 - la tienda paginada hace una sola consulta extra y la reutiliza (caché)
+  ---
+  duration_ms: 76.6265
+  ...
+# Subtest: validación de un beat antes de tocar la base
+ok 37 - validación de un beat antes de tocar la base
+  ---
+  duration_ms: 4.2266
+  ...
+# Subtest: ligar el audio de un beat no toca sus demás datos
+ok 38 - ligar el audio de un beat no toca sus demás datos
+  ---
+  duration_ms: 4.6456
+  ...
+# Subtest: la URL firmada incluye los datos para la subida reanudable
+ok 39 - la URL firmada incluye los datos para la subida reanudable
+  ---
+  duration_ms: 3.4109
+  ...
+# Subtest: reintentar un pago con la misma clave devuelve la orden original sin cobrar otra vez
+ok 40 - reintentar un pago con la misma clave devuelve la orden original sin cobrar otra vez
+  ---
+  duration_ms: 2.8872
+  ...
+# Subtest: dos pagos simultáneos con la misma clave: el que pierde la carrera recibe la misma orden
+ok 41 - dos pagos simultáneos con la misma clave: el que pierde la carrera recibe la misma orden
+  ---
+  duration_ms: 3.413
+  ...
+1..41
+# tests 92
+# suites 5
+# pass 92
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 16309.2596
+# start of coverage report
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# file                         | line % | branch % | funcs % | uncovered lines
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# scripts\p11\whitebox.test.ts |  98.79 |    95.00 |  100.00 | 1-5
+# scripts\roles.test.ts        |  97.84 |    95.24 |  100.00 | 1-3
+# scripts\seguridad.test.ts    |  98.29 |    95.24 |  100.00 | 1-3
+# scripts\tickets.test.ts      |  98.59 |    94.57 |  100.00 | 1-4
+# src\app.ts                   |  51.16 |    60.00 |   50.00 | 18 20-24 26-27 29 31-40 42-43
+# src\db\supabase.ts           |  66.67 |    50.00 |   50.00 | 8-12 18
+# src\plugins\audit.ts         |  82.35 |    62.50 |   80.00 | 28-29 31-34
+# src\plugins\cors.ts          |  50.00 |    71.43 |   80.00 | 5 8 12-18
+# src\plugins\email.ts         |  50.51 |    66.67 |   42.86 | 20-22 50-53 55-59 61-77 79-93 95-99
+# src\plugins\idempotencia.ts  |  94.74 |    92.86 |   80.00 | 19
+# src\plugins\jwt.ts           |  64.15 |    80.00 |   75.00 | 7 9-16 18-19 38-39 47 49-53
+# src\plugins\password.ts      |  84.62 |    33.33 |   33.33 | 22 25 28 31 34 39
+# src\routes\audit\index.ts    |  72.55 |    50.00 |   66.67 | 12-13 17 19-21 33-34 39-42 50-51
+# src\routes\auth\index.ts     |  32.73 |    69.57 |   27.27 | 47-121 124-136 204-209 240-256 263-275 279 282-343 346-359 362-370 373-482 485-501
+# src\routes\beats\index.ts    |  59.37 |    71.25 |   87.50 | 80 82-84 116-118 128-129 151 154-156 168-176 188-210 213-226 250-251 254-255 261-313 316-320 326-331 334-347
+# src\routes\contact\index.ts  |  66.85 |    78.90 |   80.00 | 54-57 59-75 114-116 124 128 139-151 155-159 163-164 167-170 176-178 186 193-195 205-206 221-223 230-232 244-245 248-249 256-257 278-284 286-290 292 294 297-301 320-322 324 329-336 339-342 344 347-351 371 374-380 387-401 423-424 427-428 445-456 493-494 501-508 515-522 533-534 537-538 545-550 552-554 556-558
+# src\routes\orders\index.ts   |  77.07 |    89.19 |   81.82 | 49-50 104-107 151-152 274-291 293-295 297 299-301 303-309 311-313 315 317-321 323-325 327-330 332-336 338-340 342-349 351-357 359-362
+# src\routes\packs\index.ts    |   8.47 |    71.43 |   33.33 | 20-221 223-244 246-248
+# src\routes\profile\index.ts  |  27.33 |    66.67 |   42.86 | 22 24-37 40-54 67-69 71 74-126 129-150
+# src\routes\stats\index.ts    |  50.79 |    35.71 |   44.44 | 7-8 12 14-15 57-72 75-88 91-115 125-126
+# src\routes\uploads\index.ts  |  82.50 |    68.75 |   75.00 | 18-22 28-29 32-34 55-57 80
+# src\routes\users\index.ts    |  47.00 |    48.00 |   85.71 | 48-52 54-62 64-65 69 71-72 80-82 91-94 101 104-124 129-130 134-135 143-159 171-184 187-217 223-224 233-234 237-240 247 250-251 260 273-281 291-293 296-303 310-318 326-374 389-390 412-414 429-440 442-444 446-449 451-455 457-459 461-466 468-471 473-479 481-483
+# src\schemas\comunes.ts       |  92.31 |    66.67 |   50.00 | 13
+# src\types\index.ts           |  44.26 |    87.50 |   70.00 | 46 48 50-51 53-68 70-82 84-90 92-97 99-105 107-114 116-122
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# all files                    |  62.76 |    78.73 |   82.14 |
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# end of coverage report

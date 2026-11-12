@@ -61,22 +61,22 @@ Try `flutter pub outdated` for more information.
 00:00 +7: D:/Flutter/skondit_beats_mobile/test/app_lock_test.dart: la cámara/galería no cuenta como inactividad
 00:00 +8: D:/Flutter/skondit_beats_mobile/test/app_lock_test.dart: desbloquear con biometría correcta / cancelada
 00:00 +9: D:/Flutter/skondit_beats_mobile/test/app_lock_test.dart: Acceso se convierte a fila SQLite y de regreso
-00:00 +10: D:/Flutter/skondit_beats_mobile/test/player_test.dart: siguiente y anterior avanzan por la lista
-00:00 +11: D:/Flutter/skondit_beats_mobile/test/player_test.dart: la lista da la vuelta en los extremos
-00:00 +12: D:/Flutter/skondit_beats_mobile/test/player_test.dart: no salta si no hay otro beat o el actual no está en la lista
+00:01 +10: D:/Flutter/skondit_beats_mobile/test/player_test.dart: siguiente y anterior avanzan por la lista
+00:01 +11: D:/Flutter/skondit_beats_mobile/test/player_test.dart: la lista da la vuelta en los extremos
+00:01 +12: D:/Flutter/skondit_beats_mobile/test/player_test.dart: no salta si no hay otro beat o el actual no está en la lista
 00:01 +13: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva la espera crece exponencialmente con variación y tiene tope
 00:01 +14: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-03/RES-06: una lectura con 503 se reintenta y se recupera
 00:01 +15: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-03: servidor que no responde → timeout controlado tras 2 reintentos
-00:01 +16: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-03: servidor que no responde → timeout controlado tras 2 reintentos
-00:01 +17: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-03: servidor que no responde → timeout controlado tras 2 reintentos
+00:02 +16: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-03: servidor que no responde → timeout controlado tras 2 reintentos
+00:02 +17: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-03: servidor que no responde → timeout controlado tras 2 reintentos
 00:02 +18: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-03: servidor que no responde → timeout controlado tras 2 reintentos
 00:02 +19: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-03: servidor que no responde → timeout controlado tras 2 reintentos
-00:02 +20: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-02/RES-07: una escritura SIN clave nunca se repite sola
-00:02 +21: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-07: una escritura CON clave se reintenta y manda siempre la misma clave
-00:02 +22: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-04: un 500 no se reintenta y llega como error controlado
-00:02 +23: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-05: 401 y 403 no se reintentan y se traducen
-00:02 +24: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
-00:02 +25: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
+00:02 +20: D:/Flutter/skondit_beats_mobile/test/store_test.dart: Carrito no repite beats ni agrega los ya comprados
+00:02 +21: D:/Flutter/skondit_beats_mobile/test/store_test.dart: Carrito no repite beats ni agrega los ya comprados
+00:02 +22: D:/Flutter/skondit_beats_mobile/test/store_test.dart: Carrito no repite beats ni agrega los ya comprados
+00:02 +23: D:/Flutter/skondit_beats_mobile/test/store_test.dart: Carrito no repite beats ni agrega los ya comprados
+00:02 +24: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-05: 401 y 403 no se reintentan y se traducen
+00:02 +25: D:/Flutter/skondit_beats_mobile/test/store_test.dart: Carrito al agregar un paquete quita los beats sueltos que incluye
 00:02 +26: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
 00:02 +27: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
 00:02 +28: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
@@ -93,8 +93,8 @@ Try `flutter pub outdated` for more information.
 00:02 +39: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
 00:02 +40: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
 00:02 +41: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
-00:03 +42: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
-00:03 +43: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
+00:02 +42: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
+00:02 +43: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
 00:03 +44: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
 00:03 +45: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
 00:03 +46: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
@@ -117,9 +117,9 @@ Try `flutter pub outdated` for more information.
 00:03 +63: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
 00:03 +64: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
 00:03 +65: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
-00:03 +65: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: MedicionInterceptor registra la petición sin alterar la respuesta
-[p12] GET /beats 200 · 9 ms · 0.0 KB · intento 1
 00:03 +66: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
+00:03 +66: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: MedicionInterceptor registra la petición sin alterar la respuesta
+[p12] GET /beats 200 · 7 ms · 0.0 KB · intento 1
 00:03 +67: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
 00:03 +68: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
 00:03 +69: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
@@ -167,16 +167,17 @@ Try `flutter pub outdated` for more information.
 00:03 +111: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
 00:03 +112: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
 00:03 +113: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
-00:05 +113: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: MedicionInterceptor registra la petición sin alterar la respuesta
-[p12] GET http://127.0.0.1:1/ sin respuesta · 2017 ms · ? KB · intento 1
-00:05 +114: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
-00:08 +115: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva las claves de idempotencia son UUID v4 distintos
-00:08 +116: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Subida reanudable (TUS) se corta a la mitad y continúa desde el byte donde quedó, sin repetir lo subido
-00:08 +117: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Subida reanudable (TUS) si el servidor tiene otro avance (409), pregunta y se alinea
-00:08 +118: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Subida reanudable (TUS) una sesión vencida (404) pide empezar de nuevo
-00:08 +119: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Descarga reanudable (Range) se corta, y al reintentar pide solo lo que falta
-00:08 +120: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Descarga reanudable (Range) si el archivo cambió en el servidor, empieza de cero (no mezcla versiones)
-00:08 +121: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Modelos un ticket paginado lee folio, prioridad y el conteo de respuestas
-00:08 +122: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Modelos estados desconocidos caen en Abierto y los terminados se distinguen
-00:08 +123: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Modelos una transferencia sobrevive ida y vuelta a SQLite
-00:09 +124: All tests passed!
+00:03 +114: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
+00:05 +114: D:/Flutter/skondit_beats_mobile/test/whitebox/api_client_wb_test.dart: MedicionInterceptor registra la petición sin alterar la respuesta
+[p12] GET http://127.0.0.1:1/ sin respuesta · 2031 ms · ? KB · intento 1
+00:05 +115: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva RES-01: sin conexión se detecta como error de red
+00:08 +116: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Reintentos con espera progresiva las claves de idempotencia son UUID v4 distintos
+00:08 +117: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Subida reanudable (TUS) se corta a la mitad y continúa desde el byte donde quedó, sin repetir lo subido
+00:08 +118: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Subida reanudable (TUS) si el servidor tiene otro avance (409), pregunta y se alinea
+00:08 +119: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Subida reanudable (TUS) una sesión vencida (404) pide empezar de nuevo
+00:08 +120: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Descarga reanudable (Range) se corta, y al reintentar pide solo lo que falta
+00:08 +121: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Descarga reanudable (Range) si el archivo cambió en el servidor, empieza de cero (no mezcla versiones)
+00:08 +122: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Modelos un ticket paginado lee folio, prioridad y el conteo de respuestas
+00:08 +123: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Modelos estados desconocidos caen en Abierto y los terminados se distinguen
+00:08 +124: D:/Flutter/skondit_beats_mobile/test/resiliencia_test.dart: Modelos una transferencia sobrevive ida y vuelta a SQLite
+00:09 +125: All tests passed!

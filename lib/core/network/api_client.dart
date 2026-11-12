@@ -168,9 +168,15 @@ class MedicionInterceptor extends Interceptor {
     handler.next(options);
   }
 
+  static const _registrado = 'p12_registrado';
+
   void _log(RequestOptions o, int? status, int? bytes) {
     final t0 = o.extra[_inicio] as int?;
-    if (t0 == null) return;
+    // Un reintento vuelve a pasar el mismo RequestOptions por toda la cadena, así que
+    // el error final llegaba aquí una vez por nivel (3 líneas "intento 3"). Se registra
+    // una sola vez por petición (Práctica 11, DEF-12).
+    if (t0 == null || o.extra[_registrado] == true) return;
+    o.extra[_registrado] = true;
     final ms = (DateTime.now().microsecondsSinceEpoch - t0) / 1000;
     final kb = bytes == null ? '?' : (bytes / 1024).toStringAsFixed(1);
     final intento = ((o.extra['intento'] as int?) ?? 0) + 1;
