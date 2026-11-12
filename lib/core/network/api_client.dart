@@ -23,7 +23,12 @@ class ApiException implements Exception {
     final data = e.response?.data;
     final status = e.response?.statusCode;
 
-    if (data is Map && data['error'] is String) {
+    // Las rutas de la API responden {error: "mensaje para el usuario"}. Los errores que
+    // arma Fastify por su cuenta (validación de esquema, ruta inexistente) traen además
+    // `statusCode` y un `error` genérico en inglés ("Bad Request", "Not Found") que no
+    // debe llegar a la pantalla (Práctica 11, DEF-01).
+    final deFastify = data is Map && data['statusCode'] is int;
+    if (data is Map && data['error'] is String && !deFastify) {
       return ApiException(data['error'] as String, statusCode: status);
     }
 
@@ -39,6 +44,10 @@ class ApiException implements Exception {
       default:
         if (status == 401) return ApiException('Tu sesión expiró. Inicia sesión de nuevo.', statusCode: status);
         if (status == 403) return ApiException('No tienes permiso para hacer esto.', statusCode: status);
+        if (status == 400 || status == 422) {
+          return ApiException('Revisa los datos e intenta de nuevo.', statusCode: status);
+        }
+        if (status == 404) return ApiException('No se encontró lo que buscabas.', statusCode: status);
         if (status != null && status >= 500) {
           return ApiException('El servidor tuvo un problema ($status). Intenta más tarde.', statusCode: status);
         }

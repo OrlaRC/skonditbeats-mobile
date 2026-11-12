@@ -62,7 +62,10 @@ class Validators {
   static String _digits(String? v) => (v ?? '').replaceAll(RegExp(r'\D'), '');
 
   /// Algoritmo de Luhn: detecta errores de captura en el número de tarjeta.
+  /// Con algo que no sean solo dígitos responde false en lugar de lanzar
+  /// FormatException (Práctica 11, DEF-07).
   static bool luhn(String digits) {
+    if (!_soloDigitos.hasMatch(digits)) return false;
     var sum = 0;
     for (var i = 0; i < digits.length; i++) {
       var d = int.parse(digits[digits.length - 1 - i]);
@@ -72,8 +75,13 @@ class Validators {
       }
       sum += d;
     }
-    return digits.isNotEmpty && sum % 10 == 0;
+    return sum % 10 == 0;
   }
+
+  static final _soloDigitos = RegExp(r'^\d+$');
+
+  /// Una tarjeta real no vence a más de 20 años: más allá es un error de captura.
+  static const int maxAniosVigencia = 20;
 
   static String? cardNumber(String? v) {
     final d = _digits(v);
@@ -96,6 +104,8 @@ class Validators {
     if (mes < 1 || mes > 12) return 'Mes no válido';
     final hoy = now ?? DateTime.now();
     if (anio < hoy.year || (anio == hoy.year && mes < hoy.month)) return 'La tarjeta está vencida';
+    // Antes "12/99" (año 2099) pasaba como vigente (Práctica 11, DEF-06).
+    if (anio > hoy.year + maxAniosVigencia) return 'Fecha no válida';
     return null;
   }
 

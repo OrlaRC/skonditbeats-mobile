@@ -44,7 +44,12 @@ class CartController extends Notifier<List<CartItem>> {
   /// true si el beat ya está en el carrito, suelto o dentro de un paquete.
   bool containsBeat(String beatId) => state.any((i) => i.beatIds.contains(beatId));
 
+  /// Sin sesión no hay dónde guardar el carrito: antes _insert() salía sin guardar
+  /// y aun así se respondía "se agregó al carrito" (Práctica 11, DEF-02).
+  static const _sinSesion = CartResult(false, 'Inicia sesión para usar el carrito');
+
   Future<CartResult> addBeat(Beat beat, {required Set<String> owned}) async {
+    if (_userId == null) return _sinSesion;
     if (owned.contains(beat.id)) return const CartResult(false, 'Ya compraste este beat');
     if (contains(CartItemType.beat, beat.id)) {
       return const CartResult(false, 'Este beat ya está en tu carrito');
@@ -57,6 +62,7 @@ class CartController extends Notifier<List<CartItem>> {
   }
 
   Future<CartResult> addPack(Pack pack, {required Set<String> owned}) async {
+    if (_userId == null) return _sinSesion;
     if (contains(CartItemType.pack, pack.id)) {
       return const CartResult(false, 'Este paquete ya está en tu carrito');
     }
