@@ -80,6 +80,8 @@ def prueba(nombre, patron):
 
 
 P_A, P_D = perfil('antes'), perfil('despues')
+FOTOS = {e: jl(PERFIL / f'fotogramas-{e}.json')['corridas'] for e in ('antes', 'despues') if (PERFIL / f'fotogramas-{e}.json').exists()}
+FOTOS = FOTOS if len(FOTOS) == 2 else {}
 L_A, L_D = log_beats('log-antes.txt'), log_beats('log-despues.txt')
 N_FLUTTER = prueba('flutter_test.txt', r'\+(\d+): All tests passed')
 N_API = prueba('api_test.txt', r'# pass (\d+)')
@@ -166,6 +168,9 @@ salto()
 
 # ═════════════════════════════════════════════════════════════════════════════
 h1('2. Fase 1 · Problemas detectados e hipótesis')
+par('Los cinco problemas se tomaron del reporte de la Práctica 11 (auditoría de caja blanca): la medición de consultas con '
+    'EXPLAIN ANALYZE, la latencia HTTP, el tamaño de las respuestas y la prueba de interrupción de red señalaron dónde estaba '
+    'el costo. Para cada uno se planteó una hipótesis que después se comprobó con mediciones.')
 tabla(['#', 'Problema', 'Dónde', 'Hipótesis técnica'], [
     ['1', 'Método costoso', '`GET /api/contact` (bandeja de tickets)',
      'Devuelve todos los tickets con el texto de todas sus respuestas (11.7 MB con 12 000 tickets): tiempo y tamaño crecen con el historial.'],
@@ -195,7 +200,7 @@ tabla(['Prueba', 'Cómo se hizo en la app', 'Resultado'], [
     ['Navegación', 'Panel ↔ Gestor de beats ↔ Mesa de ayuda ↔ Mi perfil (3 vueltas)', 'Sin bloqueos ni errores'],
     ['Procesamiento de datos', 'Scroll hasta abajo en el gestor (paginación de 20 en 20) y en la mesa de ayuda (30 000+ tickets)', 'Las páginas se agregan al llegar al final'],
     ['CPU y memoria', 'CSV de `perfil_android.ps1` (60 muestras por escenario)', 'Tabla siguiente'],
-    ['Bloqueos de UI', 'Registro de tiempos del recorrido y DevTools (Performance)', 'Sin congelamientos visibles; picos de CPU solo al construir la lista'],
+    ['Bloqueos de UI', 'Tiempo entre fotogramas al hacer scroll en el gestor (SurfaceFlinger, `tool/p12/fotogramas.py`)', 'Tabla de fotogramas siguiente' if FOTOS else 'Sin congelamientos visibles; picos de CPU solo al construir la lista'],
 ], [1.3, 3.0, 2.1])
 h2('CPU, memoria y operación crítica (mismo recorrido)')
 tabla(['Métrica', 'Antes', 'Después', 'Diferencia'], [
@@ -208,6 +213,19 @@ tabla(['Métrica', 'Antes', 'Después', 'Diferencia'], [
     ['Native heap máximo (MB)', f"{P_A['native_max']:.1f}", f"{P_D['native_max']:.1f}", dif(P_A['native_max'], P_D['native_max'])],
     ['Java heap máximo (MB)', f"{P_A['java_max']:.1f}", f"{P_D['java_max']:.1f}", dif(P_A['java_max'], P_D['java_max'])],
 ], [3.2, 1.1, 1.1, 1.0], centrar=(1, 2, 3))
+if FOTOS:
+    h2('Bloqueos de UI: fotogramas durante el scroll')
+    filas = []
+    for e in ('antes', 'despues'):
+        cs = FOTOS[e]
+        cu = sum(x['cuadros'] for x in cs)
+        filas.append(['Antes' if e == 'antes' else 'Después', len(cs), cu,
+                      f"{sum(x['fps_promedio'] for x in cs) / len(cs):.1f}", f"{sum(x['ms_p90'] for x in cs) / len(cs):.1f}",
+                      f"{max(x['ms_max'] for x in cs):.1f}", sum(x['mas_de_16_7ms'] for x in cs), sum(x['mas_de_33_3ms'] for x in cs)])
+    tabla(['Escenario', 'Corridas', 'Cuadros', 'FPS prom.', 'P90 ms', 'Máx. ms', '> 16.7 ms', '> 33.3 ms (jank)'], filas,
+          [1, 0.7, 0.7, 0.8, 0.7, 0.7, 0.8, 1.0], centrar=range(8))
+    par('Se leen de SurfaceFlinger los instantes en que cada cuadro llegó a la pantalla (60 Hz = 16.7 ms por cuadro) mientras '
+        'se hacen tres gestos de scroll rápido en el gestor de beats. Un cuadro de más de 33.3 ms es un tirón visible.')
 par(f"**Análisis.** La mejora más grande en el teléfono es la **operación crítica**: cargar el catálogo pasó de "
     f"{L_A['prom']:.0f} ms a {L_D['prom']:.0f} ms y de {L_A['kb']:.0f} KB a {L_D['kb']:.1f} KB por consulta, lo que en datos "
     f"móviles es la diferencia entre esperar y no esperar. El CPU y la RAM cambian poco "
@@ -240,14 +258,18 @@ h2('Después · lectura GET /api/beats?limit=20&page=1')
 tabla(ENC_CARGA, [fila_carga(f) for f in C_DESP['lectura']['filas']], ANCH_CARGA, tam=8, centrar=range(12))
 h2('Después · escritura POST /api/contact (abre un ticket)')
 tabla(ENC_CARGA, [fila_carga(f) for f in C_DESP['escritura']['filas']], ANCH_CARGA, tam=8, centrar=range(12))
-par(f"**Punto de saturación.** Antes, el servidor se saturaba con ~{SAT_A['usuarios']} usuarios a ~{SAT_A['rps']:.0f} RPS: "
+h2('Pregunta técnica: ¿crecimiento proporcional o punto de saturación?')
+par(f"**Existe un punto de saturación, y el tiempo de respuesta no crece de forma proporcional hasta llegar a él.** Antes, el servidor se saturaba con ~{SAT_A['usuarios']} usuarios a ~{SAT_A['rps']:.0f} RPS: "
     f"cada respuesta de 1.3 MB ocupa la red y la serialización JSON, así que a partir de ahí más usuarios solo hacen cola y "
     f"la latencia sube hasta {A200['promedio']:.0f} ms (P95 {A200['p95']:.0f} ms) con 200. Incluso `/health` llegó a "
     f"{A200['healthMaxMs']:.0f} ms: el proceso entero se volvía lento. Después, el máximo es ~{SAT_D['rps']:.0f} RPS con "
     f"{SAT_D['usuarios']} usuarios ({SAT_D['rps'] / SAT_A['rps']:.0f}× más) y con 200 usuarios el promedio es "
     f"{D200['promedio']:.0f} ms (P95 {D200['p95']:.0f} ms). La escritura (inserta en la base con su clave de idempotencia) "
     f"alcanza ~{SAT_W['rps']:.0f} RPS con {SAT_W['usuarios']} usuarios. **En ninguna corrida hubo errores** "
-    f"({ERR_A:.2f} % antes, {ERR_D:.2f} % después): el servidor se vuelve más lento al saturarse pero no se cae ni responde 5xx.")
+    f"({ERR_A:.2f} % antes, {ERR_D:.2f} % después): el servidor se vuelve más lento al saturarse pero no se cae ni responde 5xx. "
+    'Pasado el punto de saturación la latencia sí crece casi en proporción a los usuarios (el doble de usuarios, casi el doble '
+    'de espera), porque las peticiones ya no se atienden en paralelo sino que esperan turno: el RPS se queda fijo y lo que '
+    'aumenta es la cola.')
 salto()
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -318,6 +340,10 @@ vinetas([
     'transitorios (sin conexión, timeout, 502/503/504). Nunca ante 4xx o 500.',
     '**¿Puede duplicarse un registro?** Antes sí (CON-05: 20 de 20). Ahora no: la clave UNIQUE lo impide incluso con envíos '
     'simultáneos (CON-04).',
+    '**¿Cómo se recupera el estado de la interfaz?** Cada pantalla con error muestra "Reintentar", que vuelve a pedir los datos; '
+    'jalar para actualizar recarga la lista; si falla solo la página siguiente del scroll, lo ya mostrado se conserva y el pie '
+    'de la lista ofrece reintentar. Al volver la red desaparece la barra roja y la cola de transferencias se reanuda sola. En '
+    'el celular: tras cortar la conexión, al restablecerla y pulsar Reintentar el catálogo cargó en 49 ms (RES-06).',
     '**¿Y si el servidor procesa pero la respuesta no llega?** La app no lo confirma; al reintentar con la misma clave la API '
     'encuentra el registro y responde `repetida: true` con el original.',
     '**Reto (exponential backoff + idempotencia):** `ReintentoInterceptor` (base·2ⁿ con tope de 8 s y jitter del 50 %) y la cola '
@@ -358,6 +384,22 @@ tabla(['Métrica', 'Antes', 'Después', 'Diferencia'], [
 salto()
 
 # ═════════════════════════════════════════════════════════════════════════════
+h2('Resultados de rendimiento (PER-01 … PER-11)')
+tabla(['Código', 'Métrica', 'Resultado', 'Evidencia'], [
+    ['PER-01 CPU de la app', 'CPU promedio y máximo', f"Antes {P_A['cpu_prom']:.1f} % / {P_A['cpu_max']:.1f} %; después {P_D['cpu_prom']:.1f} % / {P_D['cpu_max']:.1f} % (de un núcleo)", '`perfil-antes.csv`, `perfil-despues.csv`'],
+    ['PER-02 Memoria', 'RAM inicial, máxima y final (PSS)', f"Antes {P_A['pss_ini']:.0f} / {P_A['pss_max']:.0f} / {P_A['pss_fin']:.0f} MB; después {P_D['pss_ini']:.0f} / {P_D['pss_max']:.0f} / {P_D['pss_fin']:.0f} MB", 'Mismos CSV (`dumpsys meminfo`)'],
+    ['PER-03 Tiempo de operación', 'ms por operación (cargar catálogo)', f"Antes {L_A['prom']:.0f} ms ({L_A['kb']:.0f} KB); después {L_D['prom']:.0f} ms ({L_D['kb']:.1f} KB)", '`log-antes.txt`, `log-despues.txt` (logcat)'],
+    ['PER-04 Carga API', 'RPS y solicitudes exitosas', f"Lectura: {SAT_A['rps']:.0f} → {SAT_D['rps']:.0f} RPS; {sum(f['exitosas'] for f in C_DESP['lectura']['filas']):,} de {sum(f['solicitudes'] for f in C_DESP['lectura']['filas']):,} exitosas".replace(',', ' '), '`carga-antes.md`, `carga-despues.md`'],
+    ['PER-05 Latencia API', 'Promedio, P90 y P95 (200 usuarios)', f"Antes {A200['promedio']:.0f} / {A200['p90']:.0f} / {A200['p95']:.0f} ms; después {D200['promedio']:.0f} / {D200['p90']:.0f} / {D200['p95']:.0f} ms", 'Mismos reportes'],
+    ['PER-06 Errores HTTP', 'Cantidad y porcentaje', f"0 errores ({ERR_A:.2f} % antes, {ERR_D:.2f} % después); solo 200 y 201", 'Columna "Códigos" de la sección 4'],
+    ['PER-07 Consultas DB', 'Tiempo y registros', f"Bandeja: {Q_A['DB-05']['ms']:.1f} ms / {Q_A['DB-05']['filas']:,} filas → {Q_D['DB-05']['ms']:.2f} ms / {Q_D['DB-05']['filas']} filas".replace(',', ' '), '`db.md` (EXPLAIN ANALYZE)'],
+    ['PER-08 Concurrencia DB', 'Conflictos y consistencia', f"{c['distintos']['fallidas'] + c['mismo']['fallidas']} transacciones fallidas; 1 ganador de 20 al tomar un ticket; 0 huérfanos ni folios repetidos", 'CON-01…05 (pgbench)'],
+    ['PER-09 Pérdida de conexión', 'Tiempo de detección y manejo', 'Sin red: 3 intentos en ≈1.2 s y luego mensaje "Sin conexión" con Reintentar (tras la corrección D-11)', '`log-resiliencia.txt`, captura RES-01'],
+    ['PER-10 Recuperación', 'Tiempo y consistencia posterior', 'Al volver la red: catálogo en 49 ms con los mismos datos; escrituras repetidas devuelven el original (sin duplicados)', 'Captura RES-06, CON-04'],
+    ['PER-11 Optimización', 'Comparación antes y después', f"RPS {SAT_D['rps'] / SAT_A['rps']:.0f}× más, P95 {dif(A200['p95'], D200['p95'])}, bandeja {dif(Q_A['DB-05']['ms'], Q_D['DB-05']['ms'])}, operación crítica {dif(L_A['prom'], L_D['prom'])}", 'Tabla comparativa'],
+], [1.3, 1.3, 2.6, 1.2], tam=8.5)
+salto()
+
 h1('8. Registro de defectos y correcciones')
 tabla(['#', 'Defecto encontrado', 'Severidad', 'Solución aplicada', 'Prueba'], [
     ['D-01', 'Reintentar un pago tras perder la respuesta podía cobrar dos veces', 'Crítica', '`Idempotency-Key` + `orders.client_ref UNIQUE`', 'CON-04/05'],
@@ -402,6 +444,30 @@ par('Probar en el celular real encontró un defecto que las pruebas automáticas
     'de estado y el cliente HTTP) se multiplicaban y dejaban al usuario mirando un esqueleto de carga sin fin. La lección es que '
     'la política de reintentos debe vivir en un solo lugar, el que sabe qué operaciones es seguro repetir, y que el usuario '
     'siempre debe recibir una respuesta: datos o un error con la opción de reintentar.')
+par('Las mediciones del teléfono también corrigieron una suposición: se esperaba que la paginación bajara mucho la RAM y el '
+    f"CPU, pero ambos cambiaron menos de 3 % ({P_A['pss_max']:.0f} → {P_D['pss_max']:.0f} MB). Flutter ya construía solo los "
+    'renglones visibles, así que el ahorro real está en la red y en el servidor: 240 veces menos datos por consulta y una '
+    'respuesta 6 veces más rápida en la app. Sin medir antes y después en las mismas condiciones (misma APK, mismo recorrido '
+    'automatizado, misma base) se habría reportado una mejora que no existía y se habría pasado por alto la que sí.')
+par('Por último, separar el entorno de pruebas de Supabase fue necesario para que los resultados sean confiables: con una base '
+    'remota la latencia del Wi-Fi se mezcla con la del código. Con PostgreSQL y PostgREST locales (el mismo motor que Supabase), '
+    'el celular por USB y scripts sin dependencias, cualquier persona puede repetir las pruebas y obtener números comparables. '
+    'Como trabajo futuro quedan medir en la red móvil real con la API desplegada y agregar una caché local del catálogo para '
+    'abrir la tienda sin conexión.')
+salto()
+
+h1('11. Entregables')
+tabla(['#', 'Entregable', 'Dónde está'], [
+    ['1', 'Código fuente original y versión optimizada', '`codigo/original` y `codigo/optimizado` (API y app) + `codigo/diferencias/*.diff`; repos con commits `1671aef` (API) y `df955b6` (app)'],
+    ['2', 'Evidencias de profiling', 'Sección 3; `evidencias_texto/perfil-*.csv`, `log-*.txt`; capturas del celular'],
+    ['3', 'Script de pruebas de carga', '`codigo/scripts_pruebas/api/carga.mjs` (+ `servidor-antes.ts` para el "antes")'],
+    ['4', 'Reporte de métricas de API', 'Sección 4; `evidencias_texto/carga-antes.md`, `carga-despues.md`'],
+    ['5', 'Reporte de rendimiento de base de datos', 'Sección 5; `evidencias_texto/db.md`; script `db-bench.mjs`'],
+    ['6', 'Matriz de pruebas de resiliencia', 'Sección 6 (RES-01 … RES-08); `resiliencia_test.dart`'],
+    ['7', 'Comparativa antes y después', 'Sección 7 (tabla comparativa y PER-01 … PER-11)'],
+    ['8', 'Registro de defectos y correcciones', 'Sección 8 (D-01 … D-11)'],
+    ['9', 'Conclusiones técnicas', 'Sección 10'],
+], [0.3, 2.0, 4.1])
 salto()
 
 h1('Anexo A · Cómo reproducir')
