@@ -226,6 +226,11 @@ if FOTOS:
           [1, 0.7, 0.7, 0.8, 0.7, 0.7, 0.8, 1.0], centrar=range(8))
     par('Se leen de SurfaceFlinger los instantes en que cada cuadro llegó a la pantalla (60 Hz = 16.7 ms por cuadro) mientras '
         'se hacen tres gestos de scroll rápido en el gestor de beats. Un cuadro de más de 33.3 ms es un tirón visible.')
+    par('**Interpretación.** En ambas versiones el scroll va prácticamente a 60 FPS (P90 ≈ 16.8 ms) y los pocos cuadros '
+        'lentos son de 33.4 ms exactos: un solo vsync perdido aislado, no un congelamiento. No hay bloqueos de UI porque la '
+        'red y la decodificación del JSON no ocurren durante el scroll y la lista construye solo los renglones visibles. Esto '
+        'confirma que la optimización no se nota en la fluidez del scroll, sino en el tiempo de carga y en los datos '
+        'descargados (tabla anterior).')
 par(f"**Análisis.** La mejora más grande en el teléfono es la **operación crítica**: cargar el catálogo pasó de "
     f"{L_A['prom']:.0f} ms a {L_D['prom']:.0f} ms y de {L_A['kb']:.0f} KB a {L_D['kb']:.1f} KB por consulta, lo que en datos "
     f"móviles es la diferencia entre esperar y no esperar. El CPU y la RAM cambian poco "

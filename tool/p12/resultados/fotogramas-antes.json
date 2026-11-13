@@ -1,0 +1,42 @@
+{
+  "etiqueta": "antes",
+  "pantalla": "Gestor de beats",
+  "corridas": [
+    {
+      "refresco_hz": 60.0,
+      "cuadros": 127,
+      "fps_promedio": 58.9,
+      "ms_promedio": 16.97,
+      "ms_p50": 16.71,
+      "ms_p90": 16.78,
+      "ms_p99": 33.38,
+      "ms_max": 33.39,
+      "mas_de_16_7ms": 2,
+      "mas_de_33_3ms": 2
+    },
+    {
+      "refresco_hz": 60.0,
+      "cuadros": 127,
+      "fps_promedio": 59.9,
+      "ms_promedio": 16.71,
+      "ms_p50": 16.71,
+      "ms_p90": 16.77,
+      "ms_p99": 16.86,
+      "ms_max": 16.86,
+      "mas_de_16_7ms": 0,
+      "mas_de_33_3ms": 0
+    },
+    {
+      "refresco_hz": 60.0,
+      "cuadros": 127,
+      "fps_promedio": 58.9,
+      "ms_promedio": 16.97,
+      "ms_p50": 16.71,
+      "ms_p90": 16.79,
+      "ms_p99": 33.43,
+      "ms_max": 33.44,
+      "mas_de_16_7ms": 2,
+      "mas_de_33_3ms": 2
+    }
+  ]
+}
