@@ -28,6 +28,10 @@ Future<void> main() async {
     ),
   );
   runApp(ProviderScope(
+    // Riverpod 3 reintenta por su cuenta los providers que fallan (hasta 10 veces)
+    // y mientras tanto la pantalla sigue "cargando": sin red, el usuario no veía el
+    // error. Los reintentos de red ya los hace ReintentoInterceptor (Práctica 12).
+    retry: (_, _) => null,
     overrides: [audioHandlerProvider.overrideWithValue(audioHandler)],
     child: const SkonditApp(),
   ));
