@@ -70,8 +70,9 @@ aumentan el RPS).
   con la ruta original (antes), contra la misma base.
 - Escritura: `POST /api/contact` (abre un ticket, con `Idempotency-Key`).
 
-> **Pendiente de ejecutar**: requiere PostgREST (paso 1). Los resultados quedan en
-> `scripts\p12\resultados\carga-antes.md` y `carga-despues.md`.
+Resultados (2026-11-12): `scripts\p12\resultados\carga-antes.md` y `carga-despues.md`. Lectura con 200 usuarios:
+antes 51 RPS, prom. 3 488 ms, P95 4 642 ms; después 1 270 RPS, prom. 154 ms, P95 215 ms; 0 % de errores en ambas.
+Saturación: antes ~10 usuarios a 49 RPS; después ~10 usuarios a 1 681 RPS. Escritura (`POST /api/contact`): máx. 666 RPS.
 
 ## Fase 4 · Base de datos (medido)
 
@@ -177,19 +178,19 @@ es el que ofrece Supabase Storage; para descargas, **peticiones de rango HTTP** 
 
 | Métrica | Antes | Después | Diferencia |
 |---|---:|---:|---:|
-| Latencia promedio API (ms) | *pendiente (Fase 3)* | *pendiente* | |
-| P95 API (ms) | *pendiente* | *pendiente* | |
-| RPS | *pendiente* | *pendiente* | |
-| Errores (%) | *pendiente* | *pendiente* | |
+| Latencia promedio API, 200 usuarios (ms) | 3 488 | 154 | −95.6 % |
+| P95 API, 200 usuarios (ms) | 4 642 | 215 | −95.4 % |
+| RPS máximo | 51 | 1 681 | 33× |
+| Errores (%) | 0.00 | 0.00 | — |
 | Tiempo de consulta DB (ms) — bandeja de tickets | 140.36 | 0.44 | −99.7 % |
 | Tiempo de consulta DB (ms) — primera pantalla tienda | 2.50 | 0.11 | −95.8 % |
 | Tamaño de respuesta — tienda (KB) | 1 332.9 | 5.5 | −99.6 % |
 | Tamaño de respuesta — bandeja (KB) | 11 771 | 9.2 | −99.9 % |
 | Consultas a la base por `GET /beats` | 3 | 1 | −66 % |
 | Pagos duplicados con 20 reintentos | 20 | 1 | sin duplicados |
-| RAM máxima (MB) | *pendiente (Fase 2)* | *pendiente* | |
-| CPU promedio (%) | *pendiente* | *pendiente* | |
-| Tiempo de operación crítica (ms) | *pendiente* | *pendiente* | |
+| RAM máxima en el celular, PSS (MB) | 199.3 | 193.9 | −2.7 % |
+| CPU promedio en el celular (%) | 38.5 | 37.6 | −2.2 % |
+| Tiempo de operación crítica (`GET /beats` en la app, ms) | 317 | 50 | −84.3 % |
 
 ## Registro de defectos y correcciones
 
@@ -205,6 +206,7 @@ es el que ofrece Supabase Storage; para descargas, **peticiones de rango HTTP** 
 | D-08 | La búsqueda con `,()` alteraba el filtro de PostgREST | Media | Se descartan esos caracteres | test 13 |
 | D-09 | Un 401 por token vencido dejaba la app "logueada" con errores | Media | `sesionExpiradaProvider` → cierre de sesión | RES-05 |
 | D-10 | La API aceptaba BPM 999 o precio negativo (fallaba en la base con 500) | Baja | `validarBeat` → 400 | test 14 |
+| D-11 | Sin red, el gestor/tienda se quedaba cargando para siempre: Riverpod 3 reintentaba el provider (hasta 10 veces) encima de los 3 intentos del interceptor | Media | `ProviderScope(retry: (_, _) => null)` en `main.dart` | RES-01 en el celular |
 
 Sin defectos críticos nuevos: `flutter analyze` sin avisos, 47 pruebas de la app y 29 de la API pasan,
 y la web sigue funcionando porque sin `limit` las rutas responden exactamente como antes.
@@ -213,12 +215,12 @@ y la web sigue funcionando porque sin `limit` las rutas responden exactamente co
 
 | Criterio | Estado |
 |---|---|
-| Prueba de estrés reproducible | Script listo (`carga.mjs`); **falta correrlo** (requiere el paso 1) |
-| Análisis de CPU y memoria | Script listo (`perfil_android.ps1`) + DevTools; **falta capturar** en el celular |
+| Prueba de estrés reproducible | Hecho (`carga.mjs`, antes y después) |
+| Análisis de CPU y memoria | Hecho (`perfil_android.ps1` en el Huawei, mismo recorrido antes/después) |
 | Concurrencia de API y base | Hecho (CON-01…05) |
 | Al menos 3 escenarios de resiliencia | Hecho: los 8 (RES-01…08), con pruebas automáticas |
 | Optimización real | Hecho (paginación, índices, caché, idempotencia, carga reanudable) |
-| Comparación antes y después | Hecho para base de datos; API, CPU y RAM pendientes de medición |
+| Comparación antes y después | Hecho (API, base de datos, CPU, RAM y operación crítica) |
 | Sin defectos críticos nuevos | Hecho (análisis y pruebas en verde) |
 
 ## Conclusiones técnicas

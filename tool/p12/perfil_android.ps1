@@ -38,9 +38,11 @@ for ($s = 1; $s -le $Segundos; $s++) {
   $mem = & $Adb shell dumpsys meminfo $Paquete
   $kb = { param($nombre) $l = $mem | Select-String -Pattern "^\s*$nombre" | Select-Object -First 1
           if ($l) { [double](($l.Line.Trim() -split '\s+') | Where-Object { $_ -match '^\d+$' } | Select-Object -First 1) / 1024 } else { 0 } }
+  # Android 11+ escribe "TOTAL PSS:"; Android 10 y anteriores, "TOTAL:".
+  $pss = & $kb 'TOTAL PSS:'; if ($pss -eq 0) { $pss = & $kb 'TOTAL:' }
   # Formato invariante: punto decimal y sin separador de miles, para que el CSV no se rompa.
   $fila = [string]::Format([cultureinfo]::InvariantCulture, '{0},{1:F1},{2:F1},{3:F1},{4:F1},{5:F1}',
-    $s, $cpu, (& $kb 'TOTAL PSS:'), (& $kb 'Java Heap:'), (& $kb 'Native Heap:'), (& $kb 'Graphics:'))
+    $s, $cpu, $pss, (& $kb 'Java Heap:'), (& $kb 'Native Heap:'), (& $kb 'Graphics:'))
   $fila | Out-File $salida -Append -Encoding utf8
   Write-Host "  $fila"
 }
