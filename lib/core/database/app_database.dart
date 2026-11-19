@@ -10,18 +10,29 @@ import 'package:sqflite/sqflite.dart';
 ///   2. carrito (artículos por usuario)
 ///   3. transferencias (subidas y descargas reanudables)
 class AppDatabase {
-  static const _name = 'skondit.db';
-  static const _version = 3;
+  /// [ruta] solo se usa en pruebas (p. ej. `inMemoryDatabasePath` o un archivo
+  /// temporal); en la app la base vive en la carpeta de bases del sistema.
+  AppDatabase({this.ruta});
 
+  static const _name = 'skondit.db';
+  static const version = 3;
+
+  final String? ruta;
   Database? _db;
 
   Future<Database> get database async => _db ??= await _open();
 
+  /// Cierra la conexión; la siguiente llamada a [database] la vuelve a abrir.
+  Future<void> cerrar() async {
+    await _db?.close();
+    _db = null;
+  }
+
   Future<Database> _open() async {
-    final path = join(await getDatabasesPath(), _name);
+    final path = ruta ?? join(await getDatabasesPath(), _name);
     return openDatabase(
       path,
-      version: _version,
+      version: version,
       onCreate: (db, version) async {
         await _crearAccesos(db);
         await _crearCarrito(db);

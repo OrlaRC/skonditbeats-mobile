@@ -1,0 +1,80 @@
+# Prácticas 13 y 14 · AUT-07 / AUT-08: integración continua de SkonditBeats Mobile.
+# En cada push y en cada pull request: dependencias → análisis estático → todas las
+# pruebas (unitarias, integración contra un servidor local y SQLite real) → resumen
+# y reportes descargables. No usa Supabase, secretos ni internet más allá de pub.dev.
+name: Pruebas automatizadas
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+
+# Un push nuevo a la misma rama cancela la corrida anterior que siga en curso.
+concurrency:
+  group: pruebas-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  pruebas:
+    name: Análisis y pruebas (Flutter)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar Flutter 3.44.0 (la misma versión que en la PC)
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.44.0
+          cache: true
+
+      - name: SQLite nativo para las pruebas de persistencia (sqflite_common_ffi)
+        run: sudo apt-get update -q && sudo apt-get install -y -q libsqlite3-dev
+
+      - name: Versiones
+        run: flutter --version
+
+      - name: Dependencias
+        run: flutter pub get
+
+      - name: Análisis estático (flutter analyze)
+        run: flutter analyze
+
+      - name: Pruebas (unitarias, integración y persistencia)
+        id: pruebas
+        run: |
+          inicio=$(date +%s)
+          flutter test --coverage \
+            --reporter expanded \
+            --file-reporter json:reporte-pruebas.json \
+            | tee salida-pruebas.txt
+          echo "segundos=$(( $(date +%s) - inicio ))" >> "$GITHUB_OUTPUT"
+
+      - name: Resumen en la página de la corrida
+        if: always()
+        run: |
+          if [ -f reporte-pruebas.json ]; then
+            dart run tool/p13/resumen_pruebas.dart reporte-pruebas.json resumen-pruebas.md
+            echo "Tiempo del paso de pruebas: ${{ steps.pruebas.outputs.segundos }} s" >> resumen-pruebas.md
+            cat resumen-pruebas.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Guardar reportes (JSON, salida, resumen y cobertura)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reportes-pruebas-${{ github.run_number }}
+          path: |
+            reporte-pruebas.json
+            salida-pruebas.txt
+            resumen-pruebas.md
+            coverage/lcov.info
+          if-no-files-found: warn
+          retention-days: 30
